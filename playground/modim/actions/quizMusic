@@ -1,0 +1,33 @@
+# Quiz
+
+TEXT_title
+<*,*,it,*>: Quiz
+<*,*,*,*>:  Quiz
+----
+IMAGE_default
+<*, *, *, *>:  img/pinkfloyd.jpg
+----
+TEXT_default
+<*,*,it,*>: Quale animale è questo?
+<*,*,*,*>:  How many members did Pink Floyd have?
+----
+TTS
+<*,*,it,*>: Quale animale è questo?
+<*,*,*,*>:  How many members did Pink Floyd have?
+----
+ASR
+<*,*,it,*>: { 'correct': ['gatto'], 'wrong': ['cane', 'orso'] }
+<*,*,*,*>:  { 'correct': ['4'],   'wrong': ['3', '2'] }
+----
+BUTTONS
+correct
+<*,*,it,*>: Gatto
+<*,*,*,*>:  4
+wrong
+<*,*,it,*>: Cane
+<*,*,*,*>:  3
+wrong
+<*,*,it,*>: Orso
+<*,*,*,*>:  2
+----
+

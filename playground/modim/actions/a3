@@ -1,0 +1,33 @@
+# Quiz
+
+TEXT_title
+<*,*,it,*>: Quiz
+<*,*,*,*>:  Quiz
+----
+IMAGE_default
+<*, *, *, *>:  img/cat.jpg
+----
+TEXT_default
+<*,*,it,*>: Quale animale è questo?
+<*,*,*,*>:  Which animal is this?
+----
+TTS
+<*,*,it,*>: Quale animale è questo?
+<*,*,*,*>:  Which animal is this?
+----
+ASR
+<*,*,it,*>: { 'correct': ['gatto'], 'wrong': ['cane', 'orso'] }
+<*,*,*,*>:  { 'correct': ['cat'],   'wrong': ['dog', 'bear'] }
+----
+BUTTONS
+correct
+<*,*,it,*>: Gatto
+<*,*,*,*>:  Cat
+wrong
+<*,*,it,*>: Cane
+<*,*,*,*>:  Dog
+wrong
+<*,*,it,*>: Orso
+<*,*,*,*>:  Bear
+----
+

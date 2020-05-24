@@ -1,0 +1,33 @@
+# Quiz
+
+TEXT_title
+<*,*,it,*>: Quiz
+<*,*,*,*>:  Quiz
+----
+IMAGE_default
+<*, *, *, *>:  img/berlin.png
+----
+TEXT_default
+<*,*,it,*>: Quale animale è questo?
+<*,*,*,*>:  What is the year in which the Berlin wall fall?
+----
+TTS
+<*,*,it,*>: Quale animale è questo?
+<*,*,*,*>:  What is the year in which the Berlin wall fall?
+----
+ASR
+<*,*,it,*>: { 'correct': ['gatto'], 'wrong': ['cane', 'orso'] }
+<*,*,*,*>:  { 'correct': ['1989'],   'wrong': ['1960', '1998'] }
+----
+BUTTONS
+correct
+<*,*,it,*>: Gatto
+<*,*,*,*>:  1989
+wrong
+<*,*,it,*>: Cane
+<*,*,*,*>:  1960
+wrong
+<*,*,it,*>: Orso
+<*,*,*,*>:  1998
+----
+

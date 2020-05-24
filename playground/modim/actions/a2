@@ -1,0 +1,33 @@
+# Question
+
+TEXT_title
+<*,*,it,*>: Benvenuto
+<*,*,*,*>:  Welcome
+----
+IMAGE_default
+<*, *, *, *>:  img/bear.jpg
+----
+TEXT_default
+<*,*,it,*>: Ti piace MODIM?
+<*,*,*,*>:  Do you like MODIM?
+----
+GESTURE
+<*,*,*,*>: animations/Stand/Gestures/Hey_1
+----
+TTS
+<*,*,it,*>: Ti piace MODIM?
+<*,*,*,*>:  Do you like MODIM?
+----
+ASR
+<*,*,it,*>: { 'yes': ['si','ok','va bene'],  'no': ['no', 'per niente'] }
+<*,*,*,*>:  { 'yes': ['yes','sure','great'], 'no': ['no', 'not at all'] }
+----
+BUTTONS
+yes
+<*,*,it,*>: Si
+<*,*,*,*>:  Yes
+no
+<*,*,it,*>: No
+<*,*,*,*>:  No
+----
+
