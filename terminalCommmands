@@ -1,0 +1,71 @@
+Guida per le operazioni da terminale:
+
+ctrl + Alt + t ==> new terminal
+
+
+1)NGINX
+
+cd hri_software/docker
+./run_nginx.bash 
+
+
+
+2)NAOQI SERVER
+
+cd hri_software/docker
+./run.bash 0.4.2
+cd /opt/Aldebaran/naoqi-sdk-2.5.5.5-linux64
+./naoqi
+
+
+
+3)MODIM SERVER
+
+cd hri_software/docker
+./run.bash 0.4.2
+cd $MODIM_HOME/src/GUI
+python ws_server.py -robot pepper
+
+
+4)ENTRI NEL ROBOT
+
+cd hri_software/docker
+./run.bash 0.4.2
+
+---> da qui launch script python per modim
+---> da qui launch sript pepper tools per simulation
+
+5)
+cd playground
+
+---> da qui invece controllo e modifico script con sublIme text
+
+
+NB) Aprire pagina web con proprio indirizzo ip per visualizzare tutto come su tablet
+
+
+
+FOR SIMULATION
+
+cd hri_software/docker
+./run.bash 0.4.2
+
+%asr
+cd src/pepper_tools/asr
+python human_say.py --sentence yes/no
+
+%sonar
+cd src/pepper_tools/sonar
+python sonar_sim.py --value xxx --duration xxx
+
+%and so on...
+
+
+
+
+
+
+
+
+
+
