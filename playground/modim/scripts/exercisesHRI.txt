@@ -1,0 +1,2 @@
+These are 2 exercises from the course of Elective In Artificial Intelligence (HRI, Iocchi).
+They are done with modim server, because in Coronavirus Times we are unable to do that with real robot, so we can do this by simulate the env, in particular by simulating the Tablet Screen.
