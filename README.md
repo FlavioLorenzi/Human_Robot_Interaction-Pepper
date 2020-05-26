@@ -15,6 +15,10 @@ In particular, thanks to modim server it is possible to simulate with a simple w
 
 
 ## Approach 
+
+<a href="https://www.dis.uniroma1.it/"><img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Far.pinterest.com%2Fpin%2F310607705523021629%2F&psig=AOvVaw0kEkaMCthSBcS8vSTHsN24&ust=1590566817694000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCODIkqOJ0ekCFQAAAAAdAAAAABAJ" width="500"></a>
+
+
 Programming Pepper as an info point robot, putting them in a hospital (the Sacred Heart): it can recognize human faces and when a person is in a given range (checking with laserscan) the robot starts interacting.
 E.G. "Welcome sir, what do you need? ... ".
 
