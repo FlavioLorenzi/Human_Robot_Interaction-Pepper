@@ -22,7 +22,9 @@ In particular, thanks to modim server it is possible to simulate with a simple w
 Programming Pepper as an info point robot, putting them in a hospital (the Sacred Heart): it can recognize human faces and when a person is in a given range (checking with laserscan) the robot starts interacting.
 E.G. "Welcome sir, what do you need? ... ".
 
-Further tasks are implemented: -transparency conditions to put people at their ease; -privacy of patients is always respected; -recognition of humans gesture (?) to understand if they need help.
+Further tasks are implemented: -transparency conditions to put people at their ease; 
+-privacy of patients is always respected;
+-recognition of humans gesture (?) to understand if they need help.
 
 In the end a final questionnaire is delivered to have a feedback on the people's feelings about this experience (HUMAN-ROBOT) and of course try to learn how to improve itself from them.
 
