@@ -211,22 +211,53 @@ def questionnaire():
     time.sleep(1)
 
     # Setting HTML element of the web page for the questionnaire
+    im.executeModality('IMAGE','img/que.gif')
     im.executeModality('TEXT_title','Could you help me to improve myself?')
     im.executeModality('TEXT_default','Can I ask you a favor? It will take a few minutes...')
     im.executeModality('TTS','Can I ask you a favor? It will take a few minutes...')
 
-    im.executeModality('IMAGE','img/que.gif')
 
     time.sleep(2)
 
-    #gesture mancante #TODO saluto con il braccio
+    #gesture mancante #TODO indicare il tablet con il braccio
 
     # Using TTS service of the robot to SPEAK 
-    im.executeModality('TEXT_title','Please, fill in a short questionnaire')
+    im.executeModality('TEXT_title','Please, fill in a short questionnaire about me')
     im.executeModality('TTS','To improve my behaviour with people, I need an evaluation')
     im.executeModality('TEXT_default','To improve my behaviour with people, I need your evaluation')
 
     time.sleep(3)
+    
+    im.executeModality('TTS','Choose between this range: One means LITTLE, Five means A LOT')
+    im.executeModality('TEXT_default','Choose between this range: 1 means LITTLE, 5 means A LOT')
+
+    time.sleep(3)
+
+    im.executeModality('TTS','How comfortable did you feel?')
+    im.executeModality('TEXT_default','How comfortable did you feel?')
+    im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
+
+    time.sleep(3)
+    
+    im.executeModality('TTS','Did I seem friendly to you?')
+    im.executeModality('TEXT_default','Did I seem friendly to you?')
+    im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
+
+    time.sleep(3)
+
+    im.executeModality('TTS','Did I seem rielable to you?')
+    im.executeModality('TEXT_default','Did I seem rielable to you?')
+    im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
+
+    time.sleep(3)
+
+    im.executeModality('TTS','So, how much you trust me?')
+    im.executeModality('TEXT_default','So, how much you trust me? ')
+    im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
+
+
+
+
 
     #TODO
 
