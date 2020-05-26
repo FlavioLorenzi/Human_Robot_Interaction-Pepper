@@ -54,7 +54,7 @@ And then we have other papers that have influence our project ideas
 
 
 ## Guideline
-See file txt
+See terminal commands file (txt)
 
 ## Results
 todo
