@@ -7,7 +7,7 @@ sys.path.append(pdir + '/src/GUI')
 import ws_client
 from ws_client import *
 
-
+#aggiunto commento prova github flavio ;) #da cancellare
 
 # Definition of interaction functions
 #se rileva qualcuno nel range allora dice benvenuto con tablet e voce
