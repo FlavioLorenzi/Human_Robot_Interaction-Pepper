@@ -8,6 +8,7 @@ import ws_client
 from ws_client import *
 
 
+
 # Definition of interaction functions
 #se rileva qualcuno nel range allora dice benvenuto con tablet e voce
 
@@ -30,12 +31,13 @@ def hellothere():
         im.executeModality('TEXT_title','Hello there')
         im.executeModality('TEXT_default','Welcome to the Sacred Heart Hospital')
         im.executeModality('TTS','Welcome to the Sacred Heart Hospital')
-
         im.executeModality('IMAGE','img/welcomeH.jpg')
+     
+        im.robot.raiseArm('R')
 
-        time.sleep(2)
+        time.sleep(3)
 
-        #gesture mancante #TODO saluto con il braccio
+        im.robot.normalPosture()
 
         # Using TTS service of the robot to SPEAK 
         im.executeModality('TTS','I am Pepper and like my fellow doctors, I am here to help people')
@@ -71,7 +73,7 @@ def infopoint():
             #credo che la voce funziona anche cosi, con questa pepper tool implementation: non per forza con im.exe(TTS)
             im.robot.say("Do you need general informations? Or are you looking for a patient?")
             im.executeModality('IMAGE','img/quest.gif')
-            im.executeModality('BUTTONS',[['informations','Informations'],['patients','Patients'],['doctors','Doctors']])
+            im.executeModality('BUTTONS',[['informations','General informations about hospital'],['patients','Look for a patient'],['doctors','Look for a doctor'],['fun','Fun with me'],['pepepr','About me']])
 
             # wait for touching buttons
             b = im.ask(actionname=None, timeout=10)
@@ -148,30 +150,78 @@ def infopoint():
                 im.executeModality('TEXT_default','Who are you looking for?')
                 im.executeModality('TTS','Who are you looking for?')
                 #im.executeModality('ASR',['yes','no'])
-                im.executeModality('BUTTONS',[['burioni','Burioni'],['house','House']])
+                im.executeModality('BUTTONS',[['doctor burioni','Doctor Burioni'],['doctor house','Doctor House'],['doctor dolittle','Doctor Dolittle']])
                 im.executeModality('IMAGE','img/madrob.jpg')
 
                 # wait for patient name 
                 c = im.ask(actionname=None, timeout=10)
 
-                if c == 'burioni':
-                    im.executeModality('TEXT_default','Covid is here, I am just calling him')  
+                if c == 'doctor burioni':
+                    im.executeModality('TEXT_default','Wait here, I am calling him right away')  
                     im.executeModality('IMAGE','img/callhelp.png')  
                     im.executeModality('TTS','josh bla bla ')
                     time.sleep(3)
 
-                if c == 'house':
+                if c == 'doctor house':
                     im.executeModality('TEXT_default','This is not a tv show!')  
                     im.executeModality('IMAGE','img/drhouse.jpg')  
                     im.executeModality('TTS','josh bla bla ')
                     time.sleep(3)
 
+                if c == 'doctor dolittle':
+                    im.executeModality('TEXT_default','Do you talk with animals? Maybe you are not well, I ll call him right now')  
+                    im.executeModality('IMAGE','img/callhelp.png')  
+                    im.executeModality('TTS','josh bla bla ')
+                    time.sleep(3)
 
 
                 im.executeModality('IMAGE','img/pepperr.jpg')
                 im.executeModality('TEXT_default','Thats all, thank you')
                 im.executeModality('TTS','Thats all, thank you')
 
+
+
+            #GAME TODO
+
+            if b == 'fun':
+                #todo ciclo while(g == True) che mi chiede al game over se voglio giocare ancora (if no allora g == False )
+
+                t = True #vai direttamente ai saluti appena finisci il quiz
+
+                im.executeModality('TEXT_default','Are you boring? Lets do a quiz ;)')  #mettere link con uno o piu giochi
+                im.executeModality('TTS','Are you boring? Lets do a quiz')
+                im.executeModality('IMAGE','img/quiz.jpg')
+                time.sleep(2)
+                im.executeModality('TEXT_default','Frist question:')
+                im.executeModality('BUTTONS',[['yes','Todo'],['no','Todo2']])
+                
+
+                # wait for answer
+                #c = im.ask(actionname=None, timeout=10)
+                '''
+                if c == '':
+                    im.executeModality('TEXT_default','bla')  
+                    im.executeModality('TTS','bla bla ')
+                    time.sleep(3)
+                '''
+                im.executeModality('TEXT_default','GAME OVER : Wanna play again?')
+                im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
+                g = False
+
+                #if no --> g = True
+
+
+            #Other informations
+            if b == 'pepper':
+
+                im.executeModality('TEXT_default','I am Pepper, a... ')
+                im.executeModality('TEXT_title','Here can you read my story')
+                im.executeModality('TTS','Here can you read my story')
+                im.executeModality('IMAGE','img/softbank.jpg')
+                time.sleep(2)
+                #TODO
+
+            
 
             #TRANSPARENCY
             time.sleep(3)
@@ -273,7 +323,7 @@ if __name__ == "__main__":
 
     mws.run_interaction(infopoint) # blocking
 
-    mws.run_interaction(questionnaire) #blocking
+    #mws.run_interaction(questionnaire) #blocking
 
     
 
