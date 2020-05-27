@@ -194,6 +194,8 @@ def infopoint():
                 time.sleep(2)
                 im.executeModality('TEXT_default','Frist question:')
                 im.executeModality('BUTTONS',[['yes','Todo'],['no','Todo2']])
+
+
                 
 
                 # wait for answer
@@ -214,12 +216,17 @@ def infopoint():
             #Other informations
             if b == 'pepper':
 
-                im.executeModality('TEXT_default','I am Pepper, a... ')
-                im.executeModality('TEXT_title','Here can you read my story')
+                im.executeModality('TEXT_title','Here you can read my story  ')
+                im.executeModality('TEXT_default','I am Pepper, one of the first social humanoid robots able to recognize faces and basic human emotions. I am optimized for human interactions and to engage with people through conversations and my touch screen')
                 im.executeModality('TTS','Here can you read my story')
                 im.executeModality('IMAGE','img/softbank.jpg')
                 time.sleep(2)
                 #TODO
+
+
+                time.sleep(2)
+                im.executeModality('TEXT_default','Did you like my story?')
+
 
             
 
