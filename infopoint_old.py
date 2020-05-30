@@ -9,6 +9,10 @@ from ws_client import *
 
 
 
+######################################################
+# LAYOUT PAGES, PATIENTS (PSW), LAYOUT QUESTIONNAIRE #
+######################################################
+
 # Definition of interaction functions
 #se rileva qualcuno nel range allora dice benvenuto con tablet e voce
 
@@ -35,9 +39,9 @@ def hellothere():
      
         im.robot.raiseArm('R')
 
-        time.sleep(2)
+        time.sleep(3)
 
-        #im.robot.normalPosture()
+        im.robot.normalPosture()
 
         # Using TTS service of the robot to SPEAK 
         im.executeModality('TTS','I am Pepper and like my fellow doctors, I am here to help people')
@@ -50,16 +54,13 @@ def hellothere():
 #chiede se ti serve aiuto e reagisce di conseguenza
 
 def infopoint():
-    DATABASE_DICT = {"flavio":"urology","nicolo":"psychiatry","gabriele":"cardiology","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
-    DATABASE = ["flavio","gabriele","nicolo"]
+        DATABASE_DICT = {"flavio":"urology","nicolo":"psychiatry","gabriele":"cardiology","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
+        DATABASE = ["flavio","gabriele","nicolo"]
 
-    DATABASE__DICT_PSW = {"flavio":"FL95","nicolo":"NM95","gabriele":"GN95","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
-    DATABASE_PSW = ["FL95","NM95","GN95"]
+        DATABASE__DICT_PSW = {"flavio":"FL95","nicolo":"NM95","gabriele":"GN95","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
+        DATABASE_PSW = ["FL95","NM95","GN95"]
 
-    t = True
-
-    while(t):
-
+        #t = True   
         #funzioni base modim usate sempre in questo script, quasi tutte
 
         im.executeModality('TEXT_title','I am Pepper and I am here for you')    #frase importante su tablet
@@ -69,55 +70,39 @@ def infopoint():
         #due modi per rispondere:
         im.executeModality('ASR',['yes','no'])
         im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
-
         # wait for answer
-        a = im.ask(actionname=None, timeout=10)
+        a = im.ask(actionname=None, timeout=20)
 
         if a=='yes':
 
             im.executeModality('TEXT_default','Ok, what do you need?')
-            #credo che la voce funziona anche cosi, con questa pepper tool implementation: non per forza con im.exe(TTS)
-            im.robot.say("Do you need general informations? Or are you looking for a patient?")
             im.executeModality('IMAGE','img/quest.gif')
             im.executeModality('BUTTONS',[['informations','General informations about hospital'],['patients','Look for a patient'],['doctors','Look for a doctor'],['fun','Fun with me'],['pepper','About me']])
 
             # wait for touching buttons
             b = im.ask(actionname=None, timeout=10)
 
-
-
-            #General info about hospital
             if b == 'informations':
                 im.executeModality('IMAGE','img/hospital.jpg')
-
-                im.executeModality('TEXT_default','Ground Floor : First aid ')
+                im.executeModality('TEXT_default','Ground Floor : first aid')
                 im.executeModality('TTS','Ground Floor : first aid ')
                 time.sleep(2)
-                im.executeModality('TEXT_default','First Floor : Cardiology department')
+                im.executeModality('TEXT_default','First Floor : cardiology department')
                 im.executeModality('TTS','First Floor : cardiology department ')
                 time.sleep(2)
-                im.executeModality('TEXT_default','Second Floor : Urology department')
+                im.executeModality('TEXT_default','Second Floor : urology department')
                 im.executeModality('TTS','Second Floor : urology department ')
                 time.sleep(2)
-                im.executeModality('TEXT_default','Third Floor : Psychiatry department')
-                im.executeModality('TTS','Third Floor : Psychiatry department ')
+                im.executeModality('TEXT_default','Third Floor : psychiatry department')
+                im.executeModality('TTS','Second Floor : psychiatry department ')
                 time.sleep(2)
-                im.executeModality('TEXT_default','Fourth Floor : Blood test withdrawal')
-                im.executeModality('TTS','Fourth Floor : Blood test withdrawal ')
-                time.sleep(2)
-                im.executeModality('IMAGE','img/tips.jpg')
-                im.executeModality('TEXT_default','Remember some useful tips to deal with this particular period')
-                im.executeModality('TTS','Pay attention')
-                time.sleep(5)
 
                 im.executeModality('TEXT_default','Thats all, thank you')
                 im.executeModality('TTS','Thats all, thank you')
-  
+                
 
-
-
-            #sezione pazienti 
             if b == 'patients':
+                
                 loop = True
                 #____TODO: 
                 #It would be perfect if the robot will look at the face of the person detected
@@ -213,9 +198,9 @@ def infopoint():
                         else:
                             break
 
+                
 
 
-            #sezione in cui puoi chiedere di 3 dottori in particolare, ma uno non fa parte dello stuff!
             if b == 'doctors':
                 im.executeModality('TEXT_default','Who are you looking for?')
                 im.executeModality('TTS','Who are you looking for?')
@@ -229,19 +214,19 @@ def infopoint():
                 if c == 'doctor burioni':
                     im.executeModality('TEXT_default','Wait here, I am calling him right away')  
                     im.executeModality('IMAGE','img/callhelp.png')  
-                    im.executeModality('TTS','How do you feel? ')
+                    im.executeModality('TTS','josh bla bla ')
                     time.sleep(3)
 
                 if c == 'doctor house':
                     im.executeModality('TEXT_default','This is not a tv show!')  
                     im.executeModality('IMAGE','img/drhouse.jpg')  
-                    im.executeModality('TTS','Go away please ')
+                    im.executeModality('TTS','josh bla bla ')
                     time.sleep(3)
 
                 if c == 'doctor dolittle':
                     im.executeModality('TEXT_default','Do you talk with animals? Maybe you are not well, I ll call him right now')  
                     im.executeModality('IMAGE','img/callhelp.png')  
-                    im.executeModality('TTS','How do you feel? ')
+                    im.executeModality('TTS','josh bla bla ')
                     time.sleep(3)
 
 
@@ -251,214 +236,94 @@ def infopoint():
 
 
 
-            #GAME 
-            #breve quiz di tre domande: se le indovini tutte e tre esce fuori la scritta sei un master
-            #inoltre in questo caso ti chiede se vuoi una foto per immortalare il momento: rispondere con asr
+            #GAME TODO
 
             if b == 'fun':
-                
-                g = True
-                im.executeModality('TEXT_default','Are you boring? Lets do a quiz ;)')  
+                #todo ciclo while(g == True) che mi chiede al game over se voglio giocare ancora (if no allora g == False )
+
+                t = True #vai direttamente ai saluti appena finisci il quiz
+
+                im.executeModality('TEXT_default','Are you boring? Lets do a quiz ;)')  #mettere link con uno o piu giochi
                 im.executeModality('TTS','Are you boring? Lets do a quiz')
+                im.executeModality('IMAGE','img/quiz.jpg')
+                time.sleep(2)
+                im.executeModality('TEXT_default','Frist question:')
+                im.executeModality('BUTTONS',[['yes','Todo'],['no','Todo2']])
 
-                while(g):
 
-                    im.executeModality('TEXT_title','Pepper Quiz') 
-                    im.executeModality('TEXT_default','Initializing . . .') 
-                    im.executeModality('IMAGE','img/quiz.jpg') 
-                    time.sleep(2)
-                                      
-                    score = 0
-                    im.executeModality('IMAGE','img/berlin.png')
-                    #the robot say this:
-                    im.executeModality('TTS','Lets talk about history')
-                    #write on the tablet
-                    im.executeModality('TEXT_default','In which year the Berlin Wall fall?')
-                    im.executeModality('BUTTONS',[['1989','1989'],['1999','1999'],['1960','1960']])
                 
-                    c = im.ask(actionname=None, timeout=15)
-                    if c=='1989':
-                        im.executeModality('TEXT_default','Very good')
-                        score = score +1
-                    else:
-                        im.executeModality('TEXT_default','Not good')
 
+                # wait for answer
+                #c = im.ask(actionname=None, timeout=10)
+                '''
+                if c == '':
+                    im.executeModality('TEXT_default','bla')  
+                    im.executeModality('TTS','bla bla ')
                     time.sleep(3)
+                '''
+                im.executeModality('TEXT_default','GAME OVER : Wanna play again?')
+                im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
+                g = False
 
-                    im.executeModality('IMAGE','img/serieA.png')
-                    #the robot say this:
-                    im.executeModality('TTS','Lets talk about sport')
-                    #write on the tablet        
-                    im.executeModality('TEXT_default','Which team won serie A in 2001?')
-                    im.executeModality('BUTTONS',[['roma','Roma'],['lazio','Lazio'],['juve','Juve']])
-
-                    d = im.ask(actionname=None, timeout=15)
-
-                    if d == 'roma':
-                        im.executeModality('TEXT_default','Very good')
-                        score = score +1
-                    else:
-                        im.executeModality('TEXT_default','Not good')
-                        
-
-                    time.sleep(3)
-
-                    im.executeModality('IMAGE','img/pinkfloyd.jpg')
-                    #the robot say this:
-                    im.executeModality('TTS','Lets talk about music')
-                    #write on the tablet
-                    im.executeModality('TEXT_default','How many members did pinkfloyd have?')
-                    im.executeModality('BUTTONS',[['4','4'],['5','5'],['3','3']])
-
-                    e = im.ask(actionname=None, timeout=10)
-                    if e=='4':
-                        im.executeModality('TEXT_default','Very good')
-                        score = score +1
-                    else:
-                        im.executeModality('TEXT_default','Not good')         
-
-                    time.sleep(2)
-
-                    #final score
-                    if score == 3:
-                        im.executeModality('IMAGE','img/master.jpg')
-                        im.executeModality('TEXT_default','You are a master')
-                        time.sleep(3)
-                        im.robot.say("Lets shoot a picture to the champion, ok?:")
-                        im.executeModality('ASR',['ok','no'])
-                        f = im.ask(actionname=None, timeout=15)
-
-                        if f == 'ok pepper':
-                            im.executeModality('TEXT_default','Taking the picture, say cheese')
-                            im.robot.say("Say cheeeeese")
-                            time.sleep(3)
-                            im.robot.takephoto()
-
-                    else:
-                        im.executeModality('IMAGE','img/sad.png')
-                        im.executeModality('TEXT_default','You have to improve yourself')
-                        time.sleep(3)
-                    
-
-                    im.executeModality('TEXT_default','GAME OVER: Play again?')
-                    im.executeModality('IMAGE','img/gameover.jpg')
-                    time.sleep(3)
-                    im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
-                    
-
-                    c = im.ask(actionname=None, timeout=10)
-
-                    if c == 'yes':
-                        g = True
-                        im.executeModality('TEXT_default','Ok, restart the game')
-                        time.sleep(3)
-
-                    if c == 'no':
-                        g = False
-                        im.executeModality('TEXT_default','Exit . . .')
-                        time.sleep(3)
-                        t = False #vai direttamente ai saluti appena finisci il quiz
-                        
-                    
+                #if no --> g = True
 
 
-
-            #Basic informations about Pepper
+            #Other informations
             if b == 'pepper':
 
                 im.executeModality('TEXT_title','Here you can read my story  ')
                 im.executeModality('TEXT_default','I am Pepper, one of the first social humanoid robots able to recognize faces and basic human emotions. I am optimized for human interactions and to engage with people through conversations and my touch screen')
                 im.executeModality('TTS','Here can you read my story')
                 im.executeModality('IMAGE','img/softbank.jpg')
-                time.sleep(8)
-                im.executeModality('TEXT_default','In this hospital I have several important roles: for example in this area I try to clarify every doubt of people, playing an info point role. I can be very useful, I know a lot of things')
-                time.sleep(10)
-                im.executeModality('TEXT_default','Then, during the night I am also on the first floor, where I am employed as assistant and supervisor for patients: I can call the medical stuff if there is some problem')
-                time.sleep(10)
+                time.sleep(4)
 
-                im.executeModality('TEXT_default','Other informations about me and my usage in healtcare environment??')
-                im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
-
-                c = im.ask(actionname=None, timeout=10)
-
-                if c == 'yes':
-                    im.executeModality('TEXT_default',' Ok, I am glad to show you')
-                    time.sleep(4)
-                    im.executeModality('IMAGE','img/healtcare.png')
-                    im.executeModality('TEXT_default',' In this particular period softbank robotics has started a Covid-19 initiative to support hospitals and clinics ')
-                    time.sleep(15)
-                    im.executeModality('TEXT_default',' Do you want more informations? Visit our site, but then I will need a restart')
-                    im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
-
-                    d = im.ask(actionname=None, timeout=10)
-
-                    if d == 'yes':
-
-                        im.display.loadUrl('site.html')     #lo lasciamo? se vai su un altra pagina non torni indietro
-                        time.sleep(10)
-                        break
-                       
-                    if d == 'no':
-                        im.executeModality('TEXT_default','Ok, I am always here, if you want')            
+                im.executeModality('TEXT_default','In this hospital I have several important roles: for example in this area I try to clarify every doubt of people, playing an info point role ')
 
 
-                if c == 'no':
-                    im.executeModality('TEXT_default','Ok, I am always here, if you want')
+                time.sleep(4)
+                im.executeModality('TEXT_default','Did you like my story?')
+
 
             
 
-            #TRANSPARENCY section: alla fine di ogni pulsante dell info point chiede se sei soddisfatto: se no return
-            if t == True:
-
+            #TRANSPARENCY
+            time.sleep(5)
+            im.executeModality('TEXT_title','Aah, just a question')
+            im.executeModality('TEXT_default','Sorry, are you satisfied with this informations?')
+            im.executeModality('TTS','Are you satisfied with this informations?')
+            im.executeModality('IMAGE','img/robot.gif')
+            im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
+            d = im.ask(actionname=None, timeout=10)
+            if d == 'yes':
+                im.executeModality('TEXT_default','Thanks, I do my best')
+                
+            if d == 'no':
+                im.executeModality('TEXT_default','Keep calm, my knowledge is at your disposal')
                 time.sleep(3)
-                im.executeModality('TEXT_title','Just a question')
-                im.executeModality('TEXT_default','Sorry, are you satisfied with this informations?')
-                im.executeModality('TTS','Are you satisfied with this informations?')
-                im.executeModality('IMAGE','img/robot.gif')
-                im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
-
-                d = im.ask(actionname=None, timeout=10)
-
-                if d == 'yes':
-                    im.executeModality('TEXT_default','Thanks, I do my best')
-                    t = False
-                if d == 'no':
-                    im.executeModality('TEXT_default','Keep calm, my knowledge is at your disposal')
-                    time.sleep(3)
 
 
-
-
-        #do you need help? NO
-        if a == 'no':
-            t = False
+        else:
             im.executeModality('IMAGE','img/pepperr.jpg')
             im.executeModality('TEXT_default','OK. Have a nice day')
             im.executeModality('TTS','I will be around here')
 
 
-    #saluti finali
-    time.sleep(2)
-    im.executeModality('TEXT_title','Sayonara')
-    im.executeModality('IMAGE','img/pepperr.jpg')
-    im.executeModality('TEXT_default','Bye bye, happy to help you')
-    im.executeModality('TTS','Bye bye, happy to help you')
-
+        time.sleep(2)
+        im.executeModality('TEXT_title','Sayonara')
+        im.executeModality('IMAGE','img/pepperr.jpg')
+        im.executeModality('TEXT_default','Bye bye, happy to help you')
+        im.executeModality('TTS','Bye bye, happy to help you')
 
 def questionnaire():
 
-    #TODO NEW LOAD URL HTML PAGE ___ 
-
-
-
-
-    time.sleep(2)
+    time.sleep(1)
 
     # Setting HTML element of the web page for the questionnaire
     im.executeModality('IMAGE','img/que.gif')
     im.executeModality('TEXT_title','Could you help me to improve myself?')
     im.executeModality('TEXT_default','Can I ask you a favor? It will take a few minutes...')
     im.executeModality('TTS','Can I ask you a favor? It will take a few minutes...')
+
 
     time.sleep(2)
 
@@ -502,12 +367,11 @@ def questionnaire():
 
 
 
-    
+    #TODO
 
 # main
 
 if __name__ == "__main__":
-
     # connect to local MODIM server
     mws = ModimWSClient()
     mws.setDemoPathAuto(__file__)

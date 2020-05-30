@@ -1,0 +1,24 @@
+# Choose among patients
+
+TEXT_title
+<*,*,it,*>: 
+<*,*,*,*>:  
+----
+IMAGE_default
+<*, *, *, *>:  img/medrob.jpeg
+----
+TEXT_default
+<*,*,it,*>: 
+<*,*,*,*>:  
+----
+TTS
+<*,*,it,*>: Bene, hai deciso di visitare una persona. Puoi, per favore, dirmi nome e cognome?
+<*,*,*,*>:  You decided to visit somebody. Can you please tell me his or her full name?
+----
+ASR
+<*,*,it,*>: ['Flavio','Nicolo','Gabriele','Roberto','John','Jack','Murphy']
+<*,*,*,*>:  ['Flavio','Nicolo','Gabriele','Roberto','John','Jack','Murphy']
+----
+
+
+

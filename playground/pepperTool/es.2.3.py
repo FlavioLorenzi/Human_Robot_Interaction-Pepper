@@ -8,14 +8,13 @@ from pepper_cmd import *
 
 begin() # connect to robot/simulator with IP in PEPPER_IP env variable
 
-#print(pepper_cmd.robot.getPosture())
 
 pepper_cmd.robot.setAlive(True)
 pepper_cmd.robot.startFaceDetection()
 
-
 p = pepper_cmd.robot.getState()
-headyaw = p[0]
+headyaw = p[6]
+
 #if you move, the head of the robot will move with you si p[0] will change
 
 if headyaw == 0:

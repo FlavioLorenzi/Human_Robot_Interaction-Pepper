@@ -91,9 +91,9 @@ if __name__ == "__main__":
 
     # run interaction functions
 
-    mws.run_interaction(e31) # blocking
+    #mws.run_interaction(e31) # blocking
 
-    mws.run_interaction(e32) 
+    #mws.run_interaction(e32) 
 
     mws.run_interaction(e33)
 

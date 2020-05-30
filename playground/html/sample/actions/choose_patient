@@ -1,0 +1,33 @@
+# Choose among patients
+
+TEXT_title
+<*,*,it,*>: 
+<*,*,*,*>:  
+----
+IMAGE_default
+<*, *, *, *>:  img/medrob.jpeg
+----
+TEXT_default
+<*,*,it,*>: Quale animale è questo?
+<*,*,*,*>:  Sport question
+----
+TTS
+<*,*,it,*>: Quale animale è questo?
+<*,*,*,*>:  Which team won serie a in 2001?
+----
+ASR
+<*,*,it,*>: { 'correct': ['gatto'], 'wrong': ['cane', 'orso'] }
+<*,*,*,*>:  { 'correct': ['Roma'],   'wrong': ['Juventus', 'Napoli'] }
+----
+BUTTONS
+correct
+<*,*,it,*>: Gatto
+<*,*,*,*>:  Roma
+wrong
+<*,*,it,*>: Cane
+<*,*,*,*>:  Juventus
+wrong
+<*,*,it,*>: Orso
+<*,*,*,*>:  Napoli
+----
+
