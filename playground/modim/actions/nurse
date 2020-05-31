@@ -1,0 +1,18 @@
+# CALLING Nurse! ! ! 
+
+TEXT_title
+<*,*,it,*>: Aiuto Aiuto
+<*,*,*,*>:  Alert Alert Alert: need help here
+----
+IMAGE_default
+<*, *, *, *>:  img2/nurse.jpg
+----
+TEXT_default
+<*,*,it,*>: Non preoccuparti stai calmo, sto chiamando aiuto
+<*,*,*,*>:  Everything will be ok, I am calling nurses.
+----
+TTS
+<*,*,it,*>: Non preoccuparti stai calmo, sto chiamando aiuto
+<*,*,*,*>:  Everything will be ok, I am calling nurses.
+----
+

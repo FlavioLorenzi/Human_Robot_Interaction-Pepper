@@ -1,0 +1,21 @@
+# water
+
+TEXT_title
+<*,*,it,*>: Ti do un consiglio
+<*,*,*,*>:  Let me give you an advise
+----
+IMAGE_default
+<*, *, *, *>:  img2/water.jpg
+----
+TEXT_default
+<*,*,it,*>: C'e una bottiglia d acqua accanto al tuo letto
+<*,*,*,*>:  Near your bed there is the water bottle, turn back and go to sleep.
+----
+GESTURE
+<*,*,*,*>: animations/Stand/Gestures/Hey_1   #sarebbe figa una gesture paricolare qui
+----
+TTS
+<*,*,it,*>: C'e una bottiglia d acqua accanto al tuo letto
+<*,*,*,*>:  Near your bed there is the water bottle, turn back and go to sleep.
+----
+

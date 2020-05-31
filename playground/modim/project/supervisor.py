@@ -15,6 +15,9 @@ from ws_client import *
 #NB: a differenza di infopoint questo script usa le action! ! ! 
 
 def supervisor():
+
+    #algoritmo di random autonomous navigation on obstacle avoidance implementato: (il robot conosce gia la mappa grazie ad uno slam fatto in passato)
+
     im.init()
     im.robot.startSensorMonitor()
     a = True
@@ -26,34 +29,73 @@ def supervisor():
     #if frontsonar >0.1 and frontsonar <3:
     if a == True:
 
-
         im.display.loadUrl('supervisor.html')
 
         time.sleep(1)
 
-        # Setting HTML element of the web page
-
-        im.executeModality('TEXT_title','ALT')
-        im.executeModality('TEXT_default','Eih you, STOP')
-        #im.executeModality('TTS','Welcome to the Sacred Heart Hospital')
-        #im.executeModality('IMAGE','img/welcomeH.jpg')
-     
         im.robot.raiseArm('R') #alt fermati con la mano
+        
+        im.execute('alt')   #esegue l'azione alt
+  
+      
+        time.sleep(4)
+
+        im.executeModality('TEXT_default','I don\'t want bother you, but why are you standing at this hour of the night?')
 
         time.sleep(2)
+    
+	    im.executeModality('ASR',['I am sick','I can\'t sleep','I was thirsty'])
 
-        #im.robot.normalPosture()
+	    # wait for answer
+	    a = im.ask(actionname=None, timeout=20)
 
-        # Using TTS service of the robot to SPEAK 
-        #im.executeModality('TTS','I am Pepper and like my fellow doctors, I am here to help people')
+	    if a=='timeout':
+	        s = "There is anyone?"
+	        im.executeModality('TEXT_default',s)
+	        time.sleep(3)
+	    
+	    if a=='I am sick':
+	    	im.executeModality('TEXT_default','How bad you feel? ')
+	    	im.executeModality('BUTTONS',[['1','A little'],['5','So-So'],['10','Too much']])
+	    	b = im.ask(actionname=None, timeout=15)
 
-        im.executeModality('TEXT_default','What are you doing ? Its night!')
+	    	if b=='1':
+	    		im.executeModality('TEXT_default','Take a moment, or wait untill tomorrow')	
+	    		im.executeModality('IMAGE','img2/moment.jpg')		#Prendi un moment e ritorna al letto, passera'
+	    		time.sleep(3)
 
-        time.sleep(3)
+	    	if b=='5':
+	    		im.execute('nurse')		#Ok chiamo un infermiera
+	    		time.sleep(3)
+	    	if b=='10':
+	    		im.execute('doc')		#E' grave! ok chiamo un medico
+	    		time.sleep(3)
 
 
+	    if a=='I can\'t sleep':
+	    	im.execute('tips1')		#take melatonin o valerian
+	    	time.sleep(3)
+
+	    if a=='I was thirsty':
+	    	im.execute('tips2')		#near your bed there is the water bottle
+	    	time.sleep(3)
 
 
+	    else:
+	    	im.executeModality('TEXT_default','I am sorry but it is beyond my capability')
+	    	time.sleep(3)
+	    	im.execute('nurse')  #call nurse
+
+
+        im.executeModality('TEXT_default','Good night')
+        im.executeModality('TEXT_default','Ok now return in your room and try to rest...')
+        im.executeModality('IMAGE','img2/gn.gif')
+        robot.sleep(4)
+
+
+#TODO
+#ASR HELP sempre attivo
+#Buttons per call doc e call nurse sempre visibili
 
 
 
