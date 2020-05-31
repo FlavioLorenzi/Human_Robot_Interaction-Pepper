@@ -28,6 +28,10 @@ Further tasks are implemented: -transparency conditions to put people at their e
 
 In the end a final questionnaire is delivered to have a feedback on the people's feelings about this experience (HUMAN-ROBOT) and of course try to learn how to improve itself from them.
 
+----->
+
+Furthmore a second task is assigned to Pepper: a night supervision role. If patients are out of their room, it stops them and starts the interaction: "Why stand at this hour? Are you sick? ... I am calling a doctor..." and so on.
+
 
 ## Description of the used tools
 todo
@@ -59,10 +63,10 @@ And then we have other papers that have influence our project ideas
 See terminal commands file (txt)
 
 ## Results
-todo
+work in progress
 
 ## References
 todo
 
 ## Final Video
-todo
+work in progress
