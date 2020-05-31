@@ -444,10 +444,11 @@ def infopoint():
     im.executeModality('TEXT_default','Bye bye, happy to help you')
     im.executeModality('TTS','Bye bye, happy to help you')
 
-
 def questionnaire():
 
     #TODO NEW LOAD URL HTML PAGE ___ 
+    # bottoni diversi, magari con numeri grandi
+    # ecc...
 
 
 
@@ -455,6 +456,8 @@ def questionnaire():
     time.sleep(2)
 
     # Setting HTML element of the web page for the questionnaire
+    im.robot.bip(1)
+    im.robot.blue_eyes()
     im.executeModality('IMAGE','img/que.gif')
     im.executeModality('TEXT_title','Could you help me to improve myself?')
     im.executeModality('TEXT_default','Can I ask you a favor? It will take a few minutes...')
@@ -462,7 +465,8 @@ def questionnaire():
 
     time.sleep(2)
 
-    #gesture mancante #TODO indicare il tablet con il braccio
+
+    
 
     # Using TTS service of the robot to SPEAK 
     im.executeModality('TEXT_title','Please, fill in a short questionnaire about me')
@@ -470,34 +474,106 @@ def questionnaire():
     im.executeModality('TEXT_default','To improve my behaviour with people, I need your evaluation')
 
     time.sleep(3)
+    im.executeModality('TEXT_default','Click Ok to accept')
+    im.executeModality('BUTTONS',[['ok','Ok'],['no','Maybe later']])
+
+    a = im.ask(actionname=None, timeout=10)
+
+    if a == 'ok':
+
+        im.robot.green_eyes()
+        #im.robot.headPose(0,25,0) #il robot abbassa la testa verso il tablet
+
+        time.sleep(1)
+        
+        im.executeModality('TTS','Choose in this range: One means LITTLE, Five means A LOT')
+        im.executeModality('TEXT_default','Choose in this range: 1 means LITTLE, 5 means A LOT')
+
+        time.sleep(3)
+
+        judge = 0 #giudizio persona
+
+        im.executeModality('TTS','How comfortable did you feel?')
+        im.executeModality('TEXT_default','How comfortable did you feel?')
+        im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
+        b = im.ask(actionname=None, timeout=10)
+        if b == '1':
+            judge =judge-2
+        if b == '3' or b == '4':           
+            judge =judge+ 1
+        if b == '5':
+            judge =judge+ 2
+
+        time.sleep(3)
+        
+        im.executeModality('TTS','Did I seem friendly to you?')
+        im.executeModality('TEXT_default','Did I seem friendly to you?')
+        im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
+        c = im.ask(actionname=None, timeout=10)
+        if c == '1':
+            judge =judge-2
+        if c == '3' or c == '4':           
+            judge =judge+ 1
+        if c == '5':
+            judge =judge+ 2
+
+        time.sleep(3)
+
+        im.executeModality('TTS','Did I seem enough rielable?')
+        im.executeModality('TEXT_default','Did I seem rielable to you?')
+        im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
+        d = im.ask(actionname=None, timeout=10)
+        if d == '1':
+            judge =judge-2
+        if d == '3' or d == '4':           
+            judge =judge+ 1
+        if d == '5':
+            judge =judge+ 2
+
+        time.sleep(3)
+
+        im.executeModality('TTS','So, how much you trust me?')
+        im.executeModality('TEXT_default','So, how much you trust me? ')
+        im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
+        e = im.ask(actionname=None, timeout=10)
+        if e == '1':
+            judge =judge-2
+        if e == '3' or e == '4':           
+            judge =judge+ 1
+        if e == '5':
+            judge =judge+ 2
+
+        time.sleep(3)
+
+        im.executeModality('TTS','Would you recommend me to others?')
+        im.executeModality('TEXT_default','Would you recommend me to others?')
+        im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
+        f = im.ask(actionname=None, timeout=10)
+        if f == 'yes':
+            judge =judge+ 2
+        if f == 'no':
+            judge =judge- 2
+
+        
+
+        if judge > 5:
+            im.executeModality('TEXT_title','Your opinion is important')
+            im.executeModality('IMAGE','img/happy.jpg')         
+            im.executeModality('TTS','Your judgment was positive, thank you')
+            im.executeModality('TEXT_default','Your judgment was positive, thank you')
+            time.sleep(3)
+        if judge < 5:
+            im.executeModality('IMAGE','img/rocky.jpg')
+            im.executeModality('TTS','Your judgment was not good, I will improve myself, I promise')
+            im.executeModality('TEXT_default','Your judgment was not good... I will improve myself, I promise')
+            time.sleep(3)
     
-    im.executeModality('TTS','Choose between this range: One means LITTLE, Five means A LOT')
-    im.executeModality('TEXT_default','Choose between this range: 1 means LITTLE, 5 means A LOT')
 
-    time.sleep(3)
 
-    im.executeModality('TTS','How comfortable did you feel?')
-    im.executeModality('TEXT_default','How comfortable did you feel?')
-    im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
-
-    time.sleep(3)
-    
-    im.executeModality('TTS','Did I seem friendly to you?')
-    im.executeModality('TEXT_default','Did I seem friendly to you?')
-    im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
-
-    time.sleep(3)
-
-    im.executeModality('TTS','Did I seem rielable to you?')
-    im.executeModality('TEXT_default','Did I seem rielable to you?')
-    im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
-
-    time.sleep(3)
-
-    im.executeModality('TTS','So, how much you trust me?')
-    im.executeModality('TEXT_default','So, how much you trust me? ')
-    im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
-
+    im.executeModality('TEXT_title','Sayonara')
+    im.executeModality('IMAGE','img/pepperr.jpg')
+    im.executeModality('TEXT_default','Bye bye, I hope to see you soon')
+    im.executeModality('TTS','Bye bye')
 
 
 
@@ -515,9 +591,9 @@ if __name__ == "__main__":
         
     #mws.run_interaction(hellothere) # blocking
 
-    mws.run_interaction(infopoint) # blocking
+    #mws.run_interaction(infopoint) # blocking
 
-    #mws.run_interaction(questionnaire) #blocking
+    mws.run_interaction(questionnaire) #blocking
 
     
 

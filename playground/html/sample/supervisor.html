@@ -3,10 +3,9 @@
 <head>
   <title>Human Robot interaction</title>
 
-  <!--
   <style>
     body {
-      background-color: #10a0a0;
+      background-color: lightyellow;
       font-family: sans-serif;
     }
     h1 {
@@ -19,7 +18,7 @@
     }
 
   input[type=button] {
-    background-color: #a10101; /* Blue */
+    background-color: #10a0a0; /* Yellow */
     border: none;
     border-radius: 8px;
     color: lightgrey;
@@ -31,18 +30,20 @@
     margin:30px 30px 30px 30px;
   }
   </style>
-  -->
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+
   <script src="qaws.js"></script>
 
 </head>
 
 <body>
 
+<!-- status -->
+<div align='right' id='status'> <font color='red'>NOT CONNECTED</font> </div>
+
 <h1 align=center> <div align='center' id='text_title'><font color='darkred'>Human Robot Interaction</div> </h1>
 <br><br>
 <div align='center'> 
-  <img height='40%' id='image_default' src="img/pepper.gif" alt="No image"/> </div><br><br>
+  <img height=510 id='image_default' src="img/pepper.gif" alt="No image"/> </div><br><br>
 <h2><div align='center' id='text_default'><font color='black'>The pepper robot is here for you</div></h2> <br>
 <div align='center' id='buttons'> </div>
 
