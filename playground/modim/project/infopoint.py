@@ -7,8 +7,6 @@ sys.path.append(pdir + '/src/GUI')
 import ws_client
 from ws_client import *
 
-
-
 # Definition of interaction functions
 #se rileva qualcuno nel range allora dice benvenuto con tablet e voce
 
@@ -53,7 +51,7 @@ def infopoint():
     DATABASE_DICT = {"flavio":"urology","nicolo":"psychiatry","gabriele":"cardiology","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
     DATABASE = ["flavio","gabriele","nicolo"]
 
-    DATABASE__DICT_PSW = {"flavio":"FL95","nicolo":"NM95","gabriele":"GN95","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
+    DATABASE__DICT_PSW = {"flavio":"FL95","nicolo":"NM95","gabriele":"GN95","roberto":"RL16","john":"JM20","jack":"JL44","murphy":"ML64"}
     DATABASE_PSW = ["FL95","NM95","GN95"]
 
     t = True
@@ -134,9 +132,14 @@ def infopoint():
                     im.executeModality('ASR',DATABASE)
                     name_person = im.ask(actionname=None, timeout=10)                   
                     
+                    ###################################################################################
+                    # NB: When we insert a name that is not recognized by the ASR, even if the name   #
+                    # is different from 'timeout' the statement will go in the 'else' branch.         #
+                    ###################################################################################
+
                     if name_person != 'timeout':                                                  
                         ##############################################################
-                        ####  Just another check to be sure about che correctness ####
+                        ####  Just another check to be sure about the correctness ####
                         ##############################################################
                             
                         im.executeModality('TEXT_default','Are you looking for '+name_person.upper()+'. Is it correct?')
@@ -376,7 +379,7 @@ def infopoint():
                 im.executeModality('TEXT_default','Then, during the night I am also on the first floor, where I am employed as assistant and supervisor for patients: I can call the medical stuff if there is some problem')
                 time.sleep(10)
 
-                im.executeModality('TEXT_default','Other informations about me and my usage in healtcare environment??')
+                im.executeModality('TEXT_default','Other informations about me and my usage in healtcare environment?')
                 im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
 
                 c = im.ask(actionname=None, timeout=10)
@@ -446,12 +449,20 @@ def infopoint():
 
 def questionnaire():
 
+    def switch_questionnaire(i):
+        switcher={
+            1: 1,
+            2: 2,
+            3: 3,
+            4: 4,
+            5: 5
+        }
+        return switcher[i]
+
     #TODO NEW LOAD URL HTML PAGE ___ 
     # bottoni diversi, magari con numeri grandi
     # ecc...
-
-
-
+    im.display.loadUrl("questionnaire.html")
 
     time.sleep(2)
 
@@ -486,10 +497,9 @@ def questionnaire():
 
         time.sleep(1)
         
-        im.executeModality('TTS','Choose in this range: One means LITTLE, Five means A LOT')
-        im.executeModality('TEXT_default','Choose in this range: 1 means LITTLE, 5 means A LOT')
-
-        time.sleep(3)
+        #im.executeModality('TTS','Choose in this range: 1 means: ABSOLUTELY NOT 2 means: MORE NO THAN YES 3 means: NEITHER YES OR NOT\n 4 means: MORE YES THAN NO\n 5 means: ABSOLUTELY YES')
+        im.executeModality('TEXT_default','Choose in this range: \n1 means: ABSOLUTELY NOT\n 2 means: MORE NO THAN YES\n 3 means: NEITHER YES OR NOT\n 4 means: MORE YES THAN NO\n 5 means: ABSOLUTELY YES')
+        time.sleep(15)
 
         judge = 0 #giudizio persona
 
@@ -497,12 +507,7 @@ def questionnaire():
         im.executeModality('TEXT_default','How comfortable did you feel?')
         im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
         b = im.ask(actionname=None, timeout=10)
-        if b == '1':
-            judge =judge-2
-        if b == '3' or b == '4':           
-            judge =judge+ 1
-        if b == '5':
-            judge =judge+ 2
+        judge += switch_questionnaire(int(b))
 
         time.sleep(3)
         
@@ -510,12 +515,7 @@ def questionnaire():
         im.executeModality('TEXT_default','Did I seem friendly to you?')
         im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
         c = im.ask(actionname=None, timeout=10)
-        if c == '1':
-            judge =judge-2
-        if c == '3' or c == '4':           
-            judge =judge+ 1
-        if c == '5':
-            judge =judge+ 2
+        judge += switch_questionnaire(int(c))
 
         time.sleep(3)
 
@@ -523,12 +523,7 @@ def questionnaire():
         im.executeModality('TEXT_default','Did I seem rielable to you?')
         im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
         d = im.ask(actionname=None, timeout=10)
-        if d == '1':
-            judge =judge-2
-        if d == '3' or d == '4':           
-            judge =judge+ 1
-        if d == '5':
-            judge =judge+ 2
+        judge += switch_questionnaire(int(d))
 
         time.sleep(3)
 
@@ -536,12 +531,7 @@ def questionnaire():
         im.executeModality('TEXT_default','So, how much you trust me? ')
         im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
         e = im.ask(actionname=None, timeout=10)
-        if e == '1':
-            judge =judge-2
-        if e == '3' or e == '4':           
-            judge =judge+ 1
-        if e == '5':
-            judge =judge+ 2
+        judge += switch_questionnaire(int(e))
 
         time.sleep(3)
 
@@ -549,20 +539,21 @@ def questionnaire():
         im.executeModality('TEXT_default','Would you recommend me to others?')
         im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
         f = im.ask(actionname=None, timeout=10)
+        avg = judge/4
+
+        # We give to the final question a higher weight wrt the other questions
         if f == 'yes':
-            judge =judge+ 2
-        if f == 'no':
-            judge =judge- 2
+            avg += 1
+        else:
+            avg -= 1
 
-        
-
-        if judge > 5:
+        if avg >= 3:
             im.executeModality('TEXT_title','Your opinion is important')
             im.executeModality('IMAGE','img/happy.jpg')         
             im.executeModality('TTS','Your judgment was positive, thank you')
             im.executeModality('TEXT_default','Your judgment was positive, thank you')
             time.sleep(3)
-        if judge < 5:
+        else:
             im.executeModality('IMAGE','img/rocky.jpg')
             im.executeModality('TTS','Your judgment was not good, I will improve myself, I promise')
             im.executeModality('TEXT_default','Your judgment was not good... I will improve myself, I promise')
@@ -574,10 +565,6 @@ def questionnaire():
     im.executeModality('IMAGE','img/pepperr.jpg')
     im.executeModality('TEXT_default','Bye bye, I hope to see you soon')
     im.executeModality('TTS','Bye bye')
-
-
-
-
     
 
 # main
