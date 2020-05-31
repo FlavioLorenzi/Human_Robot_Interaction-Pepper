@@ -1,0 +1,21 @@
+# Stop yourself! ! ! 
+
+TEXT_title
+<*,*,it,*>: Alt
+<*,*,*,*>:  ALT
+----
+IMAGE_default
+<*, *, *, *>:  img2/alt.jpg
+----
+TEXT_default
+<*,*,it,*>: Eih tu, FERMATI 
+<*,*,*,*>:  Eih you, STOP
+----
+GESTURE
+<*,*,*,*>: animations/Stand/Gestures/Hey_1
+----
+TTS
+<*,*,it,*>: Eih tu Fermati! Che ci fai in piedi a quest ora di notte?
+<*,*,*,*>:  Eih Stop! Why stand at this hour of the night?
+----
+

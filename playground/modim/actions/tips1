@@ -1,0 +1,21 @@
+# zzz
+
+TEXT_title
+<*,*,it,*>: Ti do un consiglio
+<*,*,*,*>:  Let me give you an advise
+----
+IMAGE_default
+<*, *, *, *>:  img2/zzz.jpg
+----
+TEXT_default
+<*,*,it,*>: Dormire e' importante, prendi un po di melatonina. Dormirai come un sasso
+<*,*,*,*>:  Sleeping is important, take some melatonin, it is in your second drower. You will sleep soundly
+----
+GESTURE
+<*,*,*,*>: animations/Stand/Gestures/Hey_1   #sarebbe figa una gesture paricolare qui
+----
+TTS
+<*,*,it,*>: Dormire e' importante, prendi un po di melatonina. Dormirai come un sasso
+<*,*,*,*>:  Sleeping is important, take some melatonin, it is in your second drower. You will sleep soundly
+----
+
