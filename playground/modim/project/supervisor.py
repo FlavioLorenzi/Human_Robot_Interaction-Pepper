@@ -20,14 +20,17 @@ def supervisor():
 
     im.init()
     im.robot.startSensorMonitor()
-    a = True
+    
+
+    im.executeModality('ASR',["help"])
+    h = im.ask(actionname=None, timeout=200)
 
     sonar = im.robot.sensorvalue()
     frontsonar = sonar[1]
     print('Rilevo distanza di',frontsonar)      #qui aggiungere il face recognition per ''non parlare con i muri'' TODO
 
-    #if frontsonar >0.1 and frontsonar <3:
-    if a == True:
+    if frontsonar >0.1 and frontsonar <3 or h == "help":
+    
 
         im.display.loadUrl('supervisor.html')
 
@@ -36,13 +39,15 @@ def supervisor():
         im.robot.raiseArm('R') #alt fermati con la mano
         
         im.execute('alt')   #esegue l'azione alt
-  
+
+        grave = False
       
         time.sleep(4)
-
+        im.executeModality('TEXT_title','Whats your problem?')
         im.executeModality('TEXT_default','I don\'t want bother you, but why are you standing at this hour of the night?')
 
         im.executeModality('ASR',["I am sick","I can\'t sleep","I was thirsty"])
+        im.executeModality('BUTTONS',[["I am sick","I am sick"],["I can\'t sleep","I can\'t sleep"],["I was thirsty","I was thirsty"],["other","other"]])
         c = im.ask(actionname=None, timeout=20)
 
         if c == "I am sick":
@@ -51,46 +56,43 @@ def supervisor():
           b = im.ask(actionname=None, timeout=15)
 
           if b=='1':
-          		im.executeModality('TEXT_default','Take a moment, or wait untill tomorrow')  
-          		im.executeModality('IMAGE','img2/moment.jpg')    #Prendi un moment e ritorna al letto, passera'
-          		time.sleep(3)
+              im.executeModality('TEXT_default','Take a moment, or wait untill tomorrow')  
+              im.executeModality('IMAGE','img2/moment.jpg')    #Prendi un moment e ritorna al letto, passera'
+              time.sleep(4)
 
           elif b=='5':
             im.execute('nurse')    #Ok chiamo un infermiera
-            time.sleep(3)
+            time.sleep(4)
+            grave = True
+
           else:
             im.execute('doc')    #E' grave! ok chiamo un medico
-            time.sleep(3)
+            time.sleep(4)
+            grave = True
         
         elif c == "I can\'t sleep":
           im.execute('tips1')    #take melatonin o valerian
-          time.sleep(3)
+          time.sleep(4)
 
         elif c == "I was thirsty":
           im.execute('tips2')    #near your bed there is the water bottle
-          time.sleep(3)
+          time.sleep(4)
 
         else:
           im.executeModality('TEXT_default','I am sorry but it is beyond my capability')
-          time.sleep(3)
+          time.sleep(4)
           im.execute('nurse')  #call nurse
+          time.sleep(4)
 
-        im.executeModality('TEXT_default','Good night')
-        im.executeModality('TEXT_default','Ok now return in your room and try to rest...')
-        im.executeModality('IMAGE','img2/gn.gif')
-        robot.sleep(4)
+
+        if grave == False:
+          im.executeModality('TEXT_title','Good night')
+          im.executeModality('TEXT_default','Ok now return in your room and try to rest...')
+          im.executeModality('IMAGE','img2/gn.gif')
+          robot.sleep(4)
     
       
 
-      # wait for answer
-      
-      
-
-      
-
-
-#TODO
-#ASR HELP sempre attivo
 #Buttons per call doc e call nurse sempre visibili
 
 
@@ -103,5 +105,3 @@ if __name__ == "__main__":
 
         
     mws.run_interaction(supervisor) # blocking
-
- 
