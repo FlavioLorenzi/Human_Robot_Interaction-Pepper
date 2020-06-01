@@ -437,11 +437,11 @@ def infopoint():
                 d = im.ask(actionname=None, timeout=40)
 
                 if d == 'yes':
-                	im.executeModality('TEXT_title','Your opinion is important')
+                    im.executeModality('TEXT_title','Your opinion is important')
                     im.executeModality('TEXT_default','Thanks, I do my best')
                     time.sleep(3)
                 else:
-                	im.executeModality('TEXT_title','Your opinion is important')
+                    im.executeModality('TEXT_title','Your opinion is important')
                     im.executeModality('TEXT_default','Help me to optimize my functioning, fill the questionnaire that will open here in a minute')
                     time.sleep(3)
                 t = False			
