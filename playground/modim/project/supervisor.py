@@ -43,45 +43,42 @@ def supervisor():
         im.executeModality('TEXT_default','I don\'t want bother you, but why are you standing at this hour of the night?')
 
         im.executeModality('ASR',['I am sick','I can\'t sleep','I was thirsty'])
-        a = im.ask(actionname=None, timeout=20)
+        c = im.ask(actionname=None, timeout=20)
 
-        if a=='I am sick':
-	        '''s = "There is anyone?"
-	        im.executeModality('TEXT_default',s)
-	        time.sleep(3)
-	        '''
+        if c == 'I am sick':
+          	'''s = "There is anyone?"
+          	im.executeModality('TEXT_default',s)
+          	time.sleep(3)
+          	'''
+          	im.executeModality('TEXT_default','How bad you feel? ')
+          	im.executeModality('BUTTONS',[['1','A little'],['5','So-So'],['10','Too much']])
+        	b = im.ask(actionname=None, timeout=15)
 
+        	if b=='1':
+          		im.executeModality('TEXT_default','Take a moment, or wait untill tomorrow')  
+          		im.executeModality('IMAGE','img2/moment.jpg')    #Prendi un moment e ritorna al letto, passera'
+          		time.sleep(3)
 
-	    	im.executeModality('TEXT_default','How bad you feel? ')
-	    	im.executeModality('BUTTONS',[['1','A little'],['5','So-So'],['10','Too much']])
-	    	b = im.ask(actionname=None, timeout=15)
+        	elif b=='5':
+          		im.execute('nurse')    #Ok chiamo un infermiera
+          		time.sleep(3)
+        	else:
+          		im.execute('doc')    #E' grave! ok chiamo un medico
+          		time.sleep(3)
 
-	    	if b=='1':
-	    		im.executeModality('TEXT_default','Take a moment, or wait untill tomorrow')	
-	    		im.executeModality('IMAGE','img2/moment.jpg')		#Prendi un moment e ritorna al letto, passera'
-	    		time.sleep(3)
+      	elif c == 'I can\'t sleep':
+        	im.execute('tips1')    #take melatonin o valerian
+        	time.sleep(3)
 
-	    	if b=='5':
-	    		im.execute('nurse')		#Ok chiamo un infermiera
-	    		time.sleep(3)
-	    	if b=='10':
-	    		im.execute('doc')		#E' grave! ok chiamo un medico
-	    		time.sleep(3)
-	    		
-	    if a=='I can\'t sleep':
-  
-	    	im.execute('tips1')		#take melatonin o valerian
-	    	time.sleep(3)
-
-	    if a=='I was thirsty':
-	    	im.execute('tips2')		#near your bed there is the water bottle
-	    	time.sleep(3)
+      	elif c == 'I was thirsty':
+        	im.execute('tips2')    #near your bed there is the water bottle
+        	time.sleep(3)
 
 
-	    else:
-	    	im.executeModality('TEXT_default','I am sorry but it is beyond my capability')
-	    	time.sleep(3)
-	    	im.execute('nurse')  #call nurse
+      	else:
+        	im.executeModality('TEXT_default','I am sorry but it is beyond my capability')
+        	time.sleep(3)
+        	im.execute('nurse')  #call nurse
 
 
         im.executeModality('TEXT_default','Good night')
@@ -89,13 +86,13 @@ def supervisor():
         im.executeModality('IMAGE','img2/gn.gif')
         robot.sleep(4)
     
-	    
+      
 
-	    # wait for answer
-	    
-	    
+      # wait for answer
+      
+      
 
-	    
+      
 
 
 #TODO
