@@ -8,8 +8,8 @@ IMAGE_default
 <*, *, *, *>:  img2/alt.jpg
 ----
 TEXT_default
-<*,*,it,*>: Eih tu, FERMATI 
-<*,*,*,*>:  Eih you, STOP
+<*,*,it,*>: Ehi tu, FERMATI!
+<*,*,*,*>:  Ehi you, STOP!
 ----
 GESTURE
 <*,*,*,*>: animations/Stand/Gestures/Hey_1

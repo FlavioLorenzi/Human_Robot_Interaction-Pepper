@@ -45,7 +45,7 @@ def supervisor():
     frontsonar = sonar[1]
     print('Rilevo distanza di',frontsonar)      #qui aggiungere il face recognition per ''non parlare con i muri'' TODO
 
-    if frontsonar >0.1 and frontsonar <3 or h == "help":
+    if (frontsonar >0.1 and frontsonar <3) or h == "help":
     
 
         im.display.loadUrl('supervisor.html')
@@ -104,7 +104,7 @@ def supervisor():
           time.sleep(4)
 
         #non e' grave dai la buona notte
-        if grave == False:
+        if not grave:
           im.executeModality('TEXT_title','Good night')
           im.executeModality('TEXT_default','Ok, now return in your room and try to rest...')
           im.executeModality('TTS','Ok, now return in your room and try to rest...')
@@ -113,9 +113,9 @@ def supervisor():
 
 
         # e' grave resta col paziente
-        if grave == True:
+        else:
           im.executeModality('TEXT_title','Keep calm')
-          im.executeModality('TEXT_default','I will be here with you untill doctor arrives')
+          im.executeModality('TEXT_default','I will be here with you until doctor arrives')
           im.executeModality('TTS','Ok, now return in your room and try to rest...')
           im.executeModality('IMAGE','img2/calm.gif')
           time.sleep(4)

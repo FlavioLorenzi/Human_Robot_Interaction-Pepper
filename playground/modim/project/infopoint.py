@@ -41,11 +41,11 @@ def hellothere():
 #chiede se ti serve aiuto e reagisce di conseguenza
 
 def infopoint():
-    DATABASE_DICT = {"flavio":"urology","nicolo":"psychiatry","gabriele":"cardiology","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
-    DATABASE = ["flavio","gabriele","nicolo"]
+    DATABASE_DICT = {"flavio lorenzi":"urology","nicolo mantovani":"psychiatry","gabriele nicosanti":"cardiology","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
+    DATABASE = ["flavio lorenzi","gabriele nicosanti","nicolo mantovani"]
 
-    DATABASE__DICT_PSW = {"flavio":"FL95","nicolo":"NM95","gabriele":"GN95","roberto":"RL16","john":"JM20","jack":"JL44","murphy":"ML64"}
-    DATABASE_PSW = ["FL95","NM95","GN95"]
+    DATABASE__DICT_PSW = {"flavio lorenzi":"fl95","nicolo mantovani":"nm95","gabriele nicosanti":"gn95","roberto":"rl16","john":"jm20","jack":"jl44","murphy":"ml64"}
+    DATABASE_PSW = ["nm95","fl95","gn95"]
 
     t = True
 
@@ -131,13 +131,13 @@ def infopoint():
                     im.executeModality('TEXT_default','Can you please tell me his or her full name?')
                     im.executeModality('ASR',DATABASE)
                     name_person = im.ask(actionname=None, timeout=40)                   
-                    
+
                     ###################################################################################
                     # NB: When we insert a name that is not recognized by the ASR, even if the name   #
                     # is different from 'timeout' the statement will go in the 'else' branch.         #
                     ###################################################################################
 
-                    if name_person != 'timeout':                                                  
+                    if name_person.lower() != 'timeout':                                                  
                         ##############################################################
                         ####  Just another check to be sure about the correctness ####
                         ##############################################################
@@ -176,7 +176,7 @@ def infopoint():
                                         break
                                 else:
                                     im.executeModality('IMAGE','img/x.png')        
-                                    im.executeModality('TEXT_default','The PASSWORD that you\'ve inserted is wrong. HINT: THe PSW is case sensitive. Do you want to try it again?')
+                                    im.executeModality('TEXT_default','The PASSWORD that you\'ve inserted is wrong. HINT: Try to insert the full name. i.e.: "Flavio Lorenzi". Do you want to try it again?')
                                     #im.executeModality('ASR',{'correct':['yes','si'], 'wrong':['no','not']})
                                     im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
                                     again = im.ask(actionname=None,timeout=45)
@@ -185,27 +185,17 @@ def infopoint():
                                     else:
                                         loop = False
                                         break
-
-                        elif (correct_answer == 'yes') and not (name_person in DATABASE_DICT):
-                            im.executeModality('IMAGE','img/x.png')
-                            #im.executeModality('TTS','I\'m sorry but the person you\'re looking for is not in this hospital')
-                            im.executeModality('TEXT_default','I\'m sorry but the person you\'re looking for is not in this hospital')
-                            time.sleep(5)
-                            break    
-
                         # Here PEPPER misunderstood the name of the person
                         else:
+                            im.executeModality('TEXT_default','I apologize for the misunderstanding')
                             time.sleep(5)
-                            im.executeModality('TEXT_default','I apologize sorry for the misunderstanding')
                             #im.executeModality('TTS','I\'m sorry for the misunderstanding')
                             continue
                                 
                     else:
                         im.executeModality('IMAGE','img/x.png')
                         #im.executeModality('TTS','I\'m sorry but the person you\'re looking for is not in this hospital')
-                        im.executeModality('TEXT_default','I\'m sorry but the person you\'re looking for is not in this hospital')
-                        time.sleep(10)
-                        im.executeModality('TEXT_default','Can I help you anyway?')
+                        im.executeModality('TEXT_default','I\'m sorry but the person you\'re looking for is not in this hospital. Can I help you anyway?')
                         im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
                         answer = im.ask(actionname=None,timeout=45)
                         if answer=='yes':
@@ -415,7 +405,7 @@ def infopoint():
 
             
             time.sleep(2.5)
-            im.executeModality('TEXT_title','???')
+            im.executeModality('TEXT_title','I am Pepper and I am here for you')
             im.executeModality('IMAGE','img/infopoint.jpg') 
             im.executeModality('TEXT_default','Do you need other informations?')   
             im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
@@ -437,6 +427,7 @@ def infopoint():
                 d = im.ask(actionname=None, timeout=40)
 
                 if d == 'yes':
+                    im.executeModality('IMAGE','img/happy.jpg')
                     im.executeModality('TEXT_title','Your opinion is important')
                     im.executeModality('TEXT_default','Thanks, I do my best')
                     time.sleep(3)
