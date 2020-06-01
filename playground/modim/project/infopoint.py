@@ -25,17 +25,10 @@ def hellothere():
 
         time.sleep(1)
 
-        # Setting HTML element of the web page
-        im.executeModality('TEXT_title','Hello there')
-        im.executeModality('TEXT_default','Welcome to the Sacred Heart Hospital')
-        im.executeModality('TTS','Welcome to the Sacred Heart Hospital')
-        im.executeModality('IMAGE','img/welcomeH.jpg')
-     
-        im.robot.raiseArm('R')
+        #compute Actions
+        im.execute('welcome')   #hello, welcome to the hospital with Eih gesture
 
-        time.sleep(2)
-
-        #im.robot.normalPosture()
+        time.sleep(3)
 
         # Using TTS service of the robot to SPEAK 
         im.executeModality('TTS','I am Pepper and like my fellow doctors, I am here to help people')
@@ -422,36 +415,36 @@ def infopoint():
 
             
             time.sleep(2.5)
+            im.executeModality('TEXT_title','???')
             im.executeModality('IMAGE','img/infopoint.jpg') 
             im.executeModality('TEXT_default','Do you need other informations?')   
             im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
             c = im.ask(actionname=None, timeout=40)
             if c == 'yes':
                 continue
+            
         
             #TRANSPARENCY section: alla fine di ogni pulsante dell info point chiede se sei soddisfatto: se no return
             if t == True:
 
                 time.sleep(3)
                 im.executeModality('TEXT_title','Just a question')
-                im.executeModality('TEXT_default','Sorry, are you satisfied with this informations?')
-                im.executeModality('TTS','Are you satisfied with this informations?')
+                im.executeModality('TEXT_default','Sorry, are you satisfied of my services?')
+                im.executeModality('TTS','Are you satisfied of my services?')
                 im.executeModality('IMAGE','img/robot.gif')
                 im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
 
                 d = im.ask(actionname=None, timeout=40)
 
                 if d == 'yes':
+                	im.executeModality('TEXT_title','Your opinion is important')
                     im.executeModality('TEXT_default','Thanks, I do my best')
-                else:
-                    im.executeModality('TEXT_default','How could I improve myself?')
-                    #TODO
-                    answer = im.ask(actionname=None,timeout=5)
-                    if answer != 'timeout':
-                        im.executeModality('TEXT_default','How could I improve myself?')
-
                     time.sleep(3)
-                t = False
+                else:
+                	im.executeModality('TEXT_title','Your opinion is important')
+                    im.executeModality('TEXT_default','Help me to optimize my functioning, fill the questionnaire that will open here in a minute')
+                    time.sleep(3)
+                t = False			
 
 
 
@@ -460,7 +453,7 @@ def infopoint():
         else:
             t = False
             im.executeModality('IMAGE','img/pepperr.jpg')
-            im.executeModality('TEXT_default','OK. Have a nice day')
+            im.executeModality('TEXT_default','OK. bye bye, have a nice day')
             im.executeModality('TTS','I will be around here')
 
 
@@ -468,7 +461,7 @@ def infopoint():
     time.sleep(5)
     im.executeModality('TEXT_title','Sayonara')
     im.executeModality('IMAGE','img/pepperr.jpg')
-    im.executeModality('TEXT_default','Bye bye, happy to help you')
+    im.executeModality('TEXT_default','Happy to help you !')
     im.executeModality('TTS','Bye bye, happy to help you')
 
 def questionnaire():
@@ -598,7 +591,7 @@ if __name__ == "__main__":
     mws.setDemoPathAuto(__file__)
 
         
-    #mws.run_interaction(hellothere) # blocking
+    mws.run_interaction(hellothere) # blocking
 
     mws.run_interaction(infopoint) # blocking
 
