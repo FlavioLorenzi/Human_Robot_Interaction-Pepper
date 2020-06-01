@@ -1,0 +1,21 @@
+# Simple action
+
+TEXT_title
+<*,*,it,*>: Salve
+<*,*,*,*>:  Hello there
+----
+IMAGE_default
+<*, *, *, *>:  img/welcomeH.jpg
+----
+TEXT_default
+<*,*,it,*>: Benvenuto al Sacro Cuore
+<*,*,*,*>:  Welcome to the Sacred Heart Hospital
+----
+GESTURE
+<*,*,*,*>: animations/Stand/Gestures/Hey_1
+----
+TTS
+<*,*,it,*>: Benvenuto al Sacro Cuore
+<*,*,*,*>:  Welcome to the Sacred Heart Hospital
+----
+
