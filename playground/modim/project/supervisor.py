@@ -16,13 +16,29 @@ from ws_client import *
 
 def supervisor():
 
-    #algoritmo di random autonomous navigation on obstacle avoidance implementato: (il robot conosce gia la mappa grazie ad uno slam fatto in passato)
+    #Future work: algoritmo di random autonomous navigation on obstacle avoidance implementato:
+    # (il robot conosce gia la mappa grazie ad uno slam fatto in passato)
 
     im.init()
     im.robot.startSensorMonitor()
-    
 
-    im.executeModality('ASR',["help"])
+    time.sleep(1)
+
+    # TODO bisogna trovare il modo per renderli fissi: qui danno fastidio all ASR
+
+    '''
+    im.executeModality('BUTTONS',[['nurse','nurse'],['doc','doc']]) #chiamare subito il medico manualmente
+    o = im.ask(actionname=None, timeout=200)
+
+    if o == 'nurse':
+      im.execute('nurse')
+    else:
+      im.execute('doc')
+
+    time.sleep(1)  
+    '''  
+
+    im.executeModality('ASR',["help"])        #i pazienti sono avvisati che per ricevere assistenza devono dire 'help'
     h = im.ask(actionname=None, timeout=200)
 
     sonar = im.robot.sensorvalue()
@@ -44,7 +60,10 @@ def supervisor():
       
         time.sleep(4)
         im.executeModality('TEXT_title','Whats your problem?')
+        #transparency: non voglio scocciarti ma...
         im.executeModality('TEXT_default','I don\'t want bother you, but why are you standing at this hour of the night?')
+
+        #il paziente ha 3 opzioni: oppure la 4 che e' chiamare direttamente qualcuno
 
         im.executeModality('ASR',["I am sick","I can\'t sleep","I was thirsty"])
         im.executeModality('BUTTONS',[["I am sick","I am sick"],["I can\'t sleep","I can\'t sleep"],["I was thirsty","I was thirsty"],["other","other"]])
@@ -84,16 +103,27 @@ def supervisor():
           im.execute('nurse')  #call nurse
           time.sleep(4)
 
-
+        #non e' grave dai la buona notte
         if grave == False:
           im.executeModality('TEXT_title','Good night')
-          im.executeModality('TEXT_default','Ok now return in your room and try to rest...')
+          im.executeModality('TEXT_default','Ok, now return in your room and try to rest...')
+          im.executeModality('TTS','Ok, now return in your room and try to rest...')
           im.executeModality('IMAGE','img2/gn.gif')
-          robot.sleep(4)
-    
-      
+          time.sleep(4)
 
+
+        # e' grave resta col paziente
+        if grave == True:
+          im.executeModality('TEXT_title','Keep calm')
+          im.executeModality('TEXT_default','I will be here with you untill doctor arrives')
+          im.executeModality('TTS','Ok, now return in your room and try to rest...')
+          im.executeModality('IMAGE','img2/calm.gif')
+          time.sleep(4)
+    
+#TODO
 #Buttons per call doc e call nurse sempre visibili
+
+
 
 
 
@@ -105,3 +135,5 @@ if __name__ == "__main__":
 
         
     mws.run_interaction(supervisor) # blocking
+
+    #Future work: fare in modo che questo si ripeta ogni volta che incontra un paziente!
