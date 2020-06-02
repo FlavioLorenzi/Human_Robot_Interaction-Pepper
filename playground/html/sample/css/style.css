@@ -1,6 +1,7 @@
 body{
   background-color: #10a0a0;
   font-family: sans-serif;
+  white-space: pre-line;
 }
 
 h1{

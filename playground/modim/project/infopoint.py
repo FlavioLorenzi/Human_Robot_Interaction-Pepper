@@ -41,10 +41,15 @@ def hellothere():
 #chiede se ti serve aiuto e reagisce di conseguenza
 
 def infopoint():
-    DATABASE_DICT = {"flavio lorenzi":"urology","nicolo mantovani":"psychiatry","gabriele nicosanti":"cardiology","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
-    DATABASE = ["flavio lorenzi","gabriele nicosanti","nicolo mantovani"]
+    DATABASE_WHERE = {"lorenzi":"urology","mantovani":"psychiatry","nicosanti":"cardiology","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
+    DATABASE_GET_TO_PLACE = {"urology":"If you don't know how to get urology pavillion, just get out of where you entered. Then turn left and on the left you will se a big blue building. That building is urology.",
+                             "psychiatry":"If you don't know how to get psychiatry,  just get out of where you entered. Then turn right and you will see it in front of you. It's a red building.",
+                             "cardiology":"If you don't know how to get cardiology pavillion, just get out of where you entered. Then turn left and walk until you can turn left again. You will see cardiology in front of you. It's a yellow building.",
+    }
 
-    DATABASE__DICT_PSW = {"flavio lorenzi":"fl95","nicolo mantovani":"nm95","gabriele nicosanti":"gn95","roberto":"rl16","john":"jm20","jack":"jl44","murphy":"ml64"}
+    DATABASE_SURNAME = ["lorenzi","nicosanti","mantovani"]
+    DATABASE_SURNAME_NAME = {"lorenzi":'Flavio', "mantovani":"Nicolo", "nicosanti":"Gabriele"}
+
     DATABASE_PSW = ["nm95","fl95","gn95"]
 
     t = True
@@ -70,7 +75,7 @@ def infopoint():
             #credo che la voce funziona anche cosi, con questa pepper tool implementation: non per forza con im.exe(TTS)
             im.robot.say("Do you need general informations? Or are you looking for a patient?")
             im.executeModality('IMAGE','img/quest.gif')
-            im.executeModality('BUTTONS',[['patients','Look for a patient'],['doctors','Look for a doctor'],['fun','Fun with me'],['pepper','About me'],['informations','About hospital']])
+            im.executeModality('BUTTONS',[['patients','Look for a patient'],['doctors','Look for a doctor'],['fun','Fun with me'],['pepper','About me'],['hospital_info','About hospital']])
 
             # wait for touching buttons
             b = im.ask(actionname=None, timeout=40)
@@ -78,25 +83,13 @@ def infopoint():
 
 
             #General info about hospital
-            if b == 'informations':
+            if b == 'hospital_info':
                 while True:
-                    im.executeModality('IMAGE','img/hospital.jpg')
-
-                    im.executeModality('TEXT_default','Ground Floor : First aid ')
-                    im.executeModality('TTS','Ground Floor : first aid ')
-                    time.sleep(5)
-                    im.executeModality('TEXT_default','First Floor : Cardiology department')
-                    im.executeModality('TTS','First Floor : cardiology department ')
-                    time.sleep(5)
-                    im.executeModality('TEXT_default','Second Floor : Urology department')
-                    im.executeModality('TTS','Second Floor : urology department ')
-                    time.sleep(5)
-                    im.executeModality('TEXT_default','Third Floor : Psychiatry department')
-                    im.executeModality('TTS','Third Floor : Psychiatry department ')
-                    time.sleep(5)
-                    im.executeModality('TEXT_default','Fourth Floor : Blood test withdrawal')
-                    im.executeModality('TTS','Fourth Floor : Blood test withdrawal ')
-                    time.sleep(5)
+                    im.executeModality('IMAGE','img/hospital_2_modified.jpg')
+                    im.executeModality('TEXT_default','You are in the offices (the red point). The offices are near the entrance.')
+                    time.sleep(10)
+                    im.executeModality('TEXT_default','Violet pavillion: First aid \n First pavillion (green): ostetrics \n Second pavillion (blue): urology \n Third pavillion (yellow): cardiology \n Specialty pavillion (orange): specialities \n Central clinics (red): psychiatry')
+                    time.sleep(30)
                     im.executeModality('IMAGE','img/tips.jpg')
                     im.executeModality('TEXT_default','Remember some useful tips to deal with this particular period')
                     im.executeModality('TTS','Pay attention')
@@ -110,11 +103,7 @@ def infopoint():
                     else:
                         break
 
-  
-
-
-
-            #sezione pazienti 
+            #Looking for a patient 
             if b == 'patients':
                 loop = True
                 #____TODO: 
@@ -128,8 +117,8 @@ def infopoint():
                     
                 while loop:
                     im.executeModality('IMAGE','img/medrob.jpeg')
-                    im.executeModality('TEXT_default','Can you please tell me his or her full name?')
-                    im.executeModality('ASR',DATABASE)
+                    im.executeModality('TEXT_default','Can you please tell me his or her surname?')
+                    im.executeModality('ASR',DATABASE_SURNAME)
                     name_person = im.ask(actionname=None, timeout=40)                   
 
                     ###################################################################################
@@ -137,18 +126,18 @@ def infopoint():
                     # is different from 'timeout' the statement will go in the 'else' branch.         #
                     ###################################################################################
 
-                    if name_person.lower() != 'timeout':                                                  
+                    if name_person != 'timeout':                                                  
                         ##############################################################
                         ####  Just another check to be sure about the correctness ####
                         ##############################################################
                             
-                        im.executeModality('TEXT_default','Are you looking for '+name_person.upper()+'. Is it correct?')
+                        im.executeModality('TEXT_default','Are you looking for '+ DATABASE_SURNAME_NAME[name_person].upper() +' '+ name_person.upper()+'. Is it correct?')
                         #im.executeModality('TTS','Are you looking for'+name_person+'. Is it correct?')
                         im.executeModality('ASR',{'correct':['yes','si'], 'wrong':['no','not','not at all']})
                         im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
                         correct_answer = im.ask(actionname=None, timeout=40)
                           
-                        if (correct_answer == 'yes') and (name_person in DATABASE_DICT):
+                        if (correct_answer == 'yes') and (name_person in DATABASE_SURNAME):
                             
                             #_______ In order to see people, there is a PASSWORD given for each person in the hospital (PRIVACY ISSUES)________#
                             while True:
@@ -160,9 +149,11 @@ def infopoint():
                                 psw = im.ask(actionname=None,timeout=45)
 
                                 if psw in DATABASE_PSW:
-                                    where_is = DATABASE_DICT[name_person] 
-                                    im.executeModality('TEXT_default','It\'s the correct one! '+name_person.upper()+' is in '+where_is)
+                                    where_is = DATABASE_WHERE[name_person] 
+                                    im.executeModality('TEXT_default','It\'s the correct one! '+ DATABASE_SURNAME_NAME[name_person].upper() +' '+name_person.upper()+' is in '+ where_is)
                                     time.sleep(7)
+                                    im.executeModality('TEXT_default',''+ DATABASE_GET_TO_PLACE[where_is])
+                                    time.sleep(20)
                                     im.executeModality('TEXT_default','Do you need to know other patient\'s location?')
                                     #im.executeModality('TTS','Do you need to know other patient\'s location?')
                                     im.executeModality('ASR',{'correct':['yes','si'], 'wrong':['no','not']})
@@ -177,7 +168,6 @@ def infopoint():
                                 else:
                                     im.executeModality('IMAGE','img/x.png')        
                                     im.executeModality('TEXT_default','The PASSWORD that you\'ve inserted is wrong. HINT: Try to insert the full name. i.e.: "Flavio Lorenzi". Do you want to try it again?')
-                                    #im.executeModality('ASR',{'correct':['yes','si'], 'wrong':['no','not']})
                                     im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
                                     again = im.ask(actionname=None,timeout=45)
                                     if again=='yes':
@@ -194,7 +184,6 @@ def infopoint():
                                 
                     else:
                         im.executeModality('IMAGE','img/x.png')
-                        #im.executeModality('TTS','I\'m sorry but the person you\'re looking for is not in this hospital')
                         im.executeModality('TEXT_default','I\'m sorry but the person you\'re looking for is not in this hospital. Can I help you anyway?')
                         im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
                         answer = im.ask(actionname=None,timeout=45)
@@ -582,11 +571,11 @@ if __name__ == "__main__":
     mws.setDemoPathAuto(__file__)
 
         
-    mws.run_interaction(hellothere) # blocking
+    #mws.run_interaction(hellothere) # blocking
 
-    mws.run_interaction(infopoint) # blocking
+    #mws.run_interaction(infopoint) # blocking
 
-    #mws.run_interaction(questionnaire) #blocking
+    mws.run_interaction(questionnaire) #blocking
 
     
 
