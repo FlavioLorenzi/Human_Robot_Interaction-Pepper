@@ -107,7 +107,7 @@ def infopoint():
                         break
 
             #Looking for a patient 
-            if b == 'patients':
+            elif b == 'patients':
                 loop = True
                 #____TODO: 
                 #It would be perfect if the robot will look at the face of the person detected
@@ -124,7 +124,7 @@ def infopoint():
                     im.executeModality('TEXT_default','Can you please tell me his or her surname?')
                     im.executeModality('TTS','Can you please tell me his or her surname?')
                     im.executeModality("ASR",DATABASE_SURNAME)
-                    name_person = im.ask(actionname=None, timeout=40)                   
+                    name_person = im.ask(actionname=None, timeout=15)                   
 
                     ###################################################################################
                     # NB: When we insert a name that is not recognized by the ASR, even if the name   #
@@ -153,9 +153,9 @@ def infopoint():
                                 im.executeModality('TTS','we have a new safety protocol')
                                 im.executeModality('TEXT_default','I\'m sorry for this issue but we have added a new safety protocol. What\'s the PSW?')
                                 im.executeModality('ASR',DATABASE_PSW)
-                                psw = im.ask(actionname=None,timeout=45)
+                                psw = im.ask(actionname=None,timeout=15)
 
-                                if psw in DATABASE_PSW:
+                                if psw != 'timeout':
                                     where_is = DATABASE_WHERE[name_person] 
                                     im.executeModality('TEXT_default','It\'s the correct one! '+ DATABASE_SURNAME_NAME[name_person].upper() +' '+name_person.upper()+' is in '+ where_is)
                                     time.sleep(7)
@@ -177,11 +177,10 @@ def infopoint():
                                 #ERROR HERE: non entra qui dentro
                                 else:
                                     im.executeModality('IMAGE','img/x.png')        
-                                    im.executeModality('TEXT_default','The PASSWORD that you\'ve inserted is wrong. HINT: Try to insert the full name. i.e.: "Flavio Lorenzi". Do you want to try it again?')
+                                    im.executeModality('TEXT_default','The PASSWORD that you\'ve inserted is wrong. Do you want to try it again?')
                                     im.executeModality('TTS','The PASSWORD is wrong')
-
                                     im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
-                                    again = im.ask(actionname=None,timeout=45)
+                                    again = im.ask(actionname=None,timeout=15)
                                     if again=='yes':
                                         continue
                                     else:
@@ -210,7 +209,7 @@ def infopoint():
 
 
             #sezione in cui puoi chiedere di 3 dottori in particolare, ma uno non fa parte dello stuff!zzz
-            if b == 'doctors':
+            elif b == 'doctors':
                 while True:
                     im.executeModality('TEXT_default','Who are you looking for?')
                     im.executeModality('TTS','Who are you looking for?')
@@ -259,7 +258,7 @@ def infopoint():
             #breve quiz di tre domande: se le indovini tutte e tre esce fuori la scritta sei un master
             #inoltre in questo caso ti chiede se vuoi una foto per immortalare il momento: rispondere con asr
 
-            if b == 'fun':
+            elif b == 'fun':
                 
                 g = True
                 im.executeModality('TEXT_default','Are you boring? Lets do a quiz ;)')  
@@ -400,7 +399,7 @@ def infopoint():
                         t = False #vai direttamente ai saluti appena finisci il quiz
                         
             #Basic informations about Pepper
-            if b == 'pepper':
+            else:
                 
                 while True:
                     im.executeModality('TEXT_title','Here you can read my story  ')
