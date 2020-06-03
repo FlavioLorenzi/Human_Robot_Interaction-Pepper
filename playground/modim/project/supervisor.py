@@ -23,6 +23,8 @@ def supervisor():
     im.robot.startSensorMonitor()
 
     time.sleep(1)
+    im.display.loadUrl('supervisor.html')
+
 
     # TODO bisogna trovare il modo per renderli fissi: qui danno fastidio all ASR
 
@@ -37,6 +39,7 @@ def supervisor():
 
     time.sleep(1)  
     '''  
+    im.executeModality('BUTTONS',[['nurse','nurse'],['doc','doc']]) #chiamare subito il medico manualmente
 
     im.executeModality('ASR',["help"])        #i pazienti sono avvisati che per ricevere assistenza devono dire 'help'
     h = im.ask(actionname=None, timeout=200)
@@ -45,10 +48,16 @@ def supervisor():
     frontsonar = sonar[1]
     print('Rilevo distanza di',frontsonar)      #qui aggiungere il face recognition per ''non parlare con i muri'' TODO
 
+    if h == 'nurse':
+      im.execute('nurse')
+    if h == 'doc':
+      im.execute('doc')
+
+
     if (frontsonar >0.1 and frontsonar <3) or h == "help":
     
 
-        im.display.loadUrl('supervisor.html')
+        
 
         time.sleep(1)
 
