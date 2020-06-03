@@ -1,7 +1,5 @@
 # Human_Robot_Interaction-Pepper
 
----------WORK IN PROGRESS--------
-
 AIRO project. Elective in Artificial Intelligence course: Human Robot Interaction
 Università La Sapienza Roma
 
