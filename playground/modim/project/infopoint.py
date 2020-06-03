@@ -334,7 +334,7 @@ def infopoint():
 
                     time.sleep(3)
 
-                    im.executeModality('IMAGE','img/pinkfloyd.jpg')
+                    im.executeModality('IMAGE','img/odissey.jpg')
                     #the robot say this:
                     im.executeModality('TTS','And now the last question')
                     im.executeModality('TEXT_title','And now the last question...')
