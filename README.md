@@ -32,15 +32,9 @@ Furthmore a second task is assigned to Pepper: a night supervision role. If pati
 
 
 ## Description of the used tools
-todo
+Tools for simulation:
 
-MODIM SERVER
-UBUNTU
-Python 3
-NGINX
-DOCKER
-NAOQI SERVER
-PNP SERVER
+MODIM SERVER, UBUNTU, Python 3, NGINX, DOCKER, NAOQI SERVER, PNP SERVER
 
 ## Team
 * Flavio Lorenzi <a href="https://github.com/FlavioLorenzi"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/1024px-Octicons-mark-github.svg.png" width="30"></a>
@@ -60,11 +54,10 @@ And then we have other papers that have influence our project ideas
 ## Guideline
 See terminal commands file (txt)
 
-## Results
-work in progress
+## Reference works
+-Increasing trust in human–robot medical interactions: effects of transparency and adaptability
+-Towards Robotic Systems for danger recognition and alert (Konica Minolta, YouTube)
+-State Of The Art: A Study of Human-Robot Interaction in Healthcare
 
-## References
-todo
-
-## Final Video
+## Final Video and results
 work in progress
