@@ -1,0 +1,4 @@
+
+LIBS: cv2 and sys
+
+python face_detect.py foto.jpg
