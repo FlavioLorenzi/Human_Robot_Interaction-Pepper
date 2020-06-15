@@ -9,6 +9,7 @@ from ws_client import *
 
 # Definition of interaction functions
 #se rileva qualcuno nel range allora dice benvenuto con tablet e voce
+#stessa cosa se la testa del robot o la mano destra viene toccata da un uomo
 
 def hellothere():
     im.init()
@@ -16,10 +17,14 @@ def hellothere():
 
     sonar = im.robot.sensorvalue()
     frontsonar = sonar[1]
-    print('Rilevo distanza di',frontsonar)      #qui aggiungere il face recognition per ''non parlare con i muri'' TODO
+    headTouch = sonar[3]
+    print('Rilevo distanza di',frontsonar) 
 
-    if frontsonar >0.1 and frontsonar <3:
+    #im.robot.startFaceDetection()   #future work
 
+    if frontsonar >0.1 and frontsonar <3 or head > 0:
+
+    	#im.robot.stopFaceDetection() #riconosciuto
 
         im.display.loadUrl('layout.html')
 
@@ -91,7 +96,7 @@ def infopoint():
                     time.sleep(10)
                     im.executeModality('TEXT_default','Violet pavillion: First aid \n First pavillion (green): ostetrics \n Second pavillion (blue): urology \n Third pavillion (yellow): cardiology \n Specialty pavillion (orange): specialities \n Central clinics (red): psychiatry')
                     im.robot.say('Violet pavillion: First aid \n First pavillion (green): ostetrics \n Second pavillion (blue): urology \n Third pavillion (yellow): cardiology \n Specialty pavillion (orange): specialities \n Central clinics (red): psychiatry')
-                    time.sleep(30)
+                    time.sleep(15)
                     im.executeModality('IMAGE','img/tips.jpg')
                     im.executeModality('TEXT_default','Remember some useful tips to deal with this particular period')
                     im.executeModality('TTS','Pay attention')
@@ -107,7 +112,7 @@ def infopoint():
                         break
 
             #Looking for a patient 
-            elif b == 'patients':
+            if b == 'patients':
                 loop = True
                 #____TODO: 
                 #It would be perfect if the robot will look at the face of the person detected
@@ -124,7 +129,7 @@ def infopoint():
                     im.executeModality('TEXT_default','Can you please tell me his or her surname?')
                     im.executeModality('TTS','Can you please tell me his or her surname?')
                     im.executeModality("ASR",DATABASE_SURNAME)
-                    name_person = im.ask(actionname=None, timeout=15)                   
+                    name_person = im.ask(actionname=None, timeout=10)                   
 
                     ###################################################################################
                     # NB: When we insert a name that is not recognized by the ASR, even if the name   #
@@ -153,9 +158,9 @@ def infopoint():
                                 im.executeModality('TTS','we have a new safety protocol')
                                 im.executeModality('TEXT_default','I\'m sorry for this issue but we have added a new safety protocol. What\'s the PSW?')
                                 im.executeModality('ASR',DATABASE_PSW)
-                                psw = im.ask(actionname=None,timeout=15)
+                                psw = im.ask(actionname=None,timeout=10)
 
-                                if psw != 'timeout':
+                                if psw in DATABASE_PSW:
                                     where_is = DATABASE_WHERE[name_person] 
                                     im.executeModality('TEXT_default','It\'s the correct one! '+ DATABASE_SURNAME_NAME[name_person].upper() +' '+name_person.upper()+' is in '+ where_is)
                                     time.sleep(7)
@@ -174,19 +179,20 @@ def infopoint():
                                         loop = False
                                         break
 
-                                #ERROR HERE: non entra qui dentro
+                                
                                 else:
                                     im.executeModality('IMAGE','img/x.png')        
-                                    im.executeModality('TEXT_default','The PASSWORD that you\'ve inserted is wrong. Do you want to try it again?')
+                                    im.executeModality('TEXT_default','The PASSWORD that you\'ve inserted is wrong. HINT: Try to insert the full name. i.e.: "Flavio Lorenzi". Do you want to try it again?')
                                     im.executeModality('TTS','The PASSWORD is wrong')
+
                                     im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
-                                    again = im.ask(actionname=None,timeout=15)
+                                    again = im.ask(actionname=None,timeout=45)
                                     if again=='yes':
                                         continue
                                     else:
                                         loop = False
                                         break
-                        # Here PEPPER misunderstood the name of the person
+                        
                         else:
                             im.executeModality('TEXT_default','I apologize for the misunderstanding')
                             im.executeModality('TTS','I apologize for the misunderstanding')
@@ -209,7 +215,7 @@ def infopoint():
 
 
             #sezione in cui puoi chiedere di 3 dottori in particolare, ma uno non fa parte dello stuff!zzz
-            elif b == 'doctors':
+            if b == 'doctors':
                 while True:
                     im.executeModality('TEXT_default','Who are you looking for?')
                     im.executeModality('TTS','Who are you looking for?')
@@ -258,7 +264,7 @@ def infopoint():
             #breve quiz di tre domande: se le indovini tutte e tre esce fuori la scritta sei un master
             #inoltre in questo caso ti chiede se vuoi una foto per immortalare il momento: rispondere con asr
 
-            elif b == 'fun':
+            if b == 'fun':
                 
                 g = True
                 im.executeModality('TEXT_default','Are you boring? Lets do a quiz ;)')  
@@ -399,7 +405,7 @@ def infopoint():
                         t = False #vai direttamente ai saluti appena finisci il quiz
                         
             #Basic informations about Pepper
-            else:
+            if b == 'pepper':
                 
                 while True:
                     im.executeModality('TEXT_title','Here you can read my story  ')
@@ -407,10 +413,10 @@ def infopoint():
                     im.executeModality('TTS','Here can you read my story')
                     im.executeModality('IMAGE','img/softbank.jpg')
                     time.sleep(8)
-                    im.executeModality('TEXT_default','In this hospital I have several important roles: for example in this area I try to clarify every doubt of people, playing an info point role. I can be very useful, I know a lot of things')
-                    time.sleep(20)
+                    im.executeModality('TEXT_default','In this hospital I have several important roles: for example in this area I try to clarify every doubt of people, playing an info point role. I can be very useful, I know a lot of things...')
+                    time.sleep(15)
                     im.executeModality('TEXT_default','Then, during the night I am also on the first floor, where I am employed as assistant and supervisor for patients: I can call the medical stuff if there is some problem')
-                    time.sleep(20)
+                    time.sleep(15)
 
                     im.executeModality('TEXT_default','Other informations about me and my usage in healtcare environment?')
                     im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
@@ -436,7 +442,7 @@ def infopoint():
                     else:
                         im.executeModality('TEXT_default','Ok, I am always here, if you want')
 
-                    time.sleep(20)
+                    time.sleep(10)
                     im.executeModality('TEXT_default','Do you want to read again the infos about me?')                   
                     im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
                     c = im.ask(actionname=None, timeout=40)
@@ -450,7 +456,7 @@ def infopoint():
             im.executeModality('TEXT_title','I am Pepper and I am here for you')
             im.executeModality('IMAGE','img/infopoint.jpg') 
             im.executeModality('TEXT_default','Do you need other informations?')
-            im.executeModality('TTS','Do you need other informations?')   
+            im.executeModality('TTS','Do you need other type of informations?')   
             im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
             c = im.ask(actionname=None, timeout=40)
             if c == 'yes':
@@ -555,7 +561,7 @@ def questionnaire():
         judge = 0 #giudizio persona
 
         im.executeModality('TTS','How comfortable did you feel?')
-        im.executeModality('TEXT_default','How comfortable did you feel?')
+        im.executeModality('TEXT_default','How comfortable did you feel during the interaction?')
         im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
         b = im.ask(actionname=None, timeout=40)
         judge += switch_questionnaire(int(b))
@@ -571,7 +577,7 @@ def questionnaire():
         time.sleep(3)
 
         im.executeModality('TTS','Did I seem enough rielable?')
-        im.executeModality('TEXT_default','Did I seem rielable to you?')
+        im.executeModality('TEXT_default','Did I seem rielable in this situation?')
         im.executeModality('BUTTONS',[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']])
         d = im.ask(actionname=None, timeout=40)
         judge += switch_questionnaire(int(d))
@@ -627,11 +633,11 @@ if __name__ == "__main__":
     mws.setDemoPathAuto(__file__)
 
         
-    #mws.run_interaction(hellothere) # blocking
+    mws.run_interaction(hellothere) # blocking
 
     mws.run_interaction(infopoint) # blocking
 
-    #mws.run_interaction(questionnaire) #blocking
+    mws.run_interaction(questionnaire) #blocking
 
     
 

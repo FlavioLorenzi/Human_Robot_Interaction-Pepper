@@ -40,12 +40,13 @@ def supervisor():
     time.sleep(1)  
     '''  
     im.executeModality('BUTTONS',[['nurse','nurse'],['doc','doc']]) #chiamare subito il medico manualmente
-
+    backP = False
     im.executeModality('ASR',["help"])        #i pazienti sono avvisati che per ricevere assistenza devono dire 'help'
     h = im.ask(actionname=None, timeout=200)
 
     sonar = im.robot.sensorvalue()
     frontsonar = sonar[1]
+    rearsonar = sonar[2]
     print('Rilevo distanza di',frontsonar)      #qui aggiungere il face recognition per ''non parlare con i muri'' TODO
 
     if h == 'nurse':
@@ -53,8 +54,11 @@ def supervisor():
     if h == 'doc':
       im.execute('doc')
 
+    if rearsonar >0.1 and rearsonar <3: #e' importante che veda le persone anche se dietro di lui
+      backP = True
 
-    if (frontsonar >0.1 and frontsonar <3) or h == "help":
+
+    if (frontsonar >0.1 and frontsonar <3) or h == "help" or backP ==True:
     
 
         
