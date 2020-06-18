@@ -364,7 +364,7 @@ def infopoint():
                         im.executeModality('TEXT_default','You are a master')
                         time.sleep(5)
                         #im.robot.say("Lets shoot a picture to the champion, ok?:")
-                        im.executeModality('TEXT_default','Lets shoot a picture to the campion: say OK to accept. . .')
+                        im.executeModality('TEXT_default','Lets shoot a picture to the champion: say OK to accept. . .')
                         im.executeModality('ASR',['ok','no'])
                         g = im.ask(actionname=None, timeout=35)
 
