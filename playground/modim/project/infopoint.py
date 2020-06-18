@@ -200,7 +200,7 @@ def infopoint():
                             #im.executeModality('TTS','I\'m sorry for the misunderstanding')
                             continue
                     
-                    #Anche qua da fastidio       
+                   
                     else:
                         im.executeModality('IMAGE','img/x.png')
                         im.executeModality('TEXT_default','I\'m sorry but the person you\'re looking for is not in this hospital. Can I help you anyway?')
