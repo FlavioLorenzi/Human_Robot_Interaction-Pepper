@@ -8,7 +8,7 @@ import ws_client
 from ws_client import *
 
 # Definition of interaction functions
-#se rileva qualcuno nel range allora dice benvenuto con tablet e voce
+# If someone is in the range, he's welcomed by a predefined action
 
 def hellothere():
     im.init()
@@ -16,16 +16,16 @@ def hellothere():
 
     sonar = im.robot.sensorvalue()
     frontsonar = sonar[1]
-    print('Rilevo distanza di',frontsonar)      #qui aggiungere il face recognition per ''non parlare con i muri'' TODO
+    print('Rilevo distanza di',frontsonar)     
 
     if frontsonar >0.1 and frontsonar <3:
 
 
-        im.display.loadUrl('layout.html')
+        im.display.loadUrl('layout_infopoint.html')
 
         time.sleep(1)
 
-        #compute Actions
+        # Perform action
         im.execute('welcome')   #hello, welcome to the hospital with Eih gesture
 
         time.sleep(3)
@@ -38,7 +38,6 @@ def hellothere():
         time.sleep(3)
 
 
-#chiede se ti serve aiuto e reagisce di conseguenza
 
 def infopoint():
     DATABASE_WHERE = {"lorenzi":"urology","mantovani":"psychiatry","nicosanti":"cardiology","roberto":"urology","john":"psychiatry","jack":"cardiology","murphy":"psychiatry"}
@@ -56,33 +55,26 @@ def infopoint():
 
     while(t):
 
-        #funzioni base modim usate sempre in questo script, quasi tutte
-
-        im.executeModality('TEXT_title','I am Pepper and I am here for you')    #frase importante su tablet
-        im.executeModality('TTS','Do you need some help?')                      #parlare
-        im.executeModality('TEXT_default','Do you need some help?')             #frasi sul tablet
-        im.executeModality('IMAGE','img/infopoint.jpg')                         #img centrale
-        #due modi per rispondere:
+        im.executeModality('TEXT_title','I am Pepper and I am here for you')    
+        im.executeModality('TTS','Do you need some help?')                      
+        im.executeModality('TEXT_default','Do you need some help?')             
+        im.executeModality('IMAGE','img/infopoint.jpg')                         
         im.executeModality('ASR',['yes','no'])
         im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
-
-        # wait for answer
         a = im.ask(actionname=None, timeout=40)
 
+        # If the sensed person need some kind of help
         if a=='yes':
 
             im.executeModality('TEXT_default','Ok, what do you need?')
-            #la voce funziona anche cosi, con questa pepper tool implementation: non per forza con im.exe(TTS)
             im.robot.say("Do you need general informations? Or are you looking for a patient?")
             im.executeModality('IMAGE','img/quest.gif')
             im.executeModality('BUTTONS',[['patients','Look for a patient'],['doctors','Look for a doctor'],['fun','Fun with me'],['pepper','About me'],['hospital_info','About hospital']])
-
-            # wait for touching buttons
             b = im.ask(actionname=None, timeout=40)
 
-
-
-            #General info about hospital
+            ###################################
+            #   General info about hospital   #
+            ##################################
             if b == 'hospital_info':
                 while True:
                     im.executeModality('IMAGE','img/hospital_2_modified.jpg')
@@ -106,25 +98,22 @@ def infopoint():
                     else:
                         break
 
-            #Looking for a patient 
-            if b == 'patients':
+            #############################
+            #   Looking for a patient   #
+            #############################
+            elif b == 'patients':
                 loop = True
-                #____TODO: 
-                #It would be perfect if the robot will look at the face of the person detected
-                #but  unfortunately we have no real people.
                 im.executeModality('IMAGE','img/medrob.jpeg')
                 im.executeModality('TEXT_default','You decided to visit somebody then. It would be for sure a pleasure for him!')
                 im.robot.say('You decided to visit somebody then')
-                time.sleep(5)
-                #im.executeModality('TTS','You decided to visit somebody then. It would be for sure a pleasure for him.')
-                
+                time.sleep(5)              
                     
                 while loop:
                     im.executeModality('IMAGE','img/medrob.jpeg')
                     im.executeModality('TEXT_default','Can you please tell me his or her surname?')
                     im.executeModality('TTS','Can you please tell me his or her surname?')
                     im.executeModality("ASR",DATABASE_SURNAME)
-                    name_person = im.ask(actionname=None, timeout=40)                   
+                    name_person = im.ask(actionname=None, timeout=15)                   
 
                     ###################################################################################
                     # NB: When we insert a name that is not recognized by the ASR, even if the name   #
@@ -132,12 +121,10 @@ def infopoint():
                     ###################################################################################
 
                     if name_person != 'timeout':                                                  
-                        ##############################################################
-                        ####  Just another check to be sure about the correctness ####
-                        ##############################################################
-                            
+                        
+                        # Here there is another check, even if it may be redundant: it enters here ONLY when a word 
+                        # present in the vocabulary DATABASE_SURNAME is recognized, otherwise goes in the else branch.
                         im.executeModality('TEXT_default','Are you looking for '+ DATABASE_SURNAME_NAME[name_person].upper() +' '+ name_person.upper()+'. Is it correct?')
-                        #im.executeModality('TTS','Are you looking for'+name_person+'. Is it correct?')
                         im.executeModality('ASR',{'correct':['yes','si'], 'wrong':['no','not','not at all']})
                         im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
                         correct_answer = im.ask(actionname=None, timeout=40)
@@ -153,16 +140,18 @@ def infopoint():
                                 im.executeModality('TTS','we have a new safety protocol')
                                 im.executeModality('TEXT_default','I\'m sorry for this issue but we have added a new safety protocol. What\'s the PSW?')
                                 im.executeModality('ASR',DATABASE_PSW)
-                                psw = im.ask(actionname=None,timeout=45)
+                                psw = im.ask(actionname=None,timeout=15)
 
-                                if psw in DATABASE_PSW:
+
+                                # The PASSWORD is recognized by Pepper, and thus the location of the patient can be known.
+                                if psw != 'timeout':
                                     where_is = DATABASE_WHERE[name_person] 
                                     im.executeModality('TEXT_default','It\'s the correct one! '+ DATABASE_SURNAME_NAME[name_person].upper() +' '+name_person.upper()+' is in '+ where_is)
                                     time.sleep(7)
                                     im.executeModality('TEXT_default',''+ DATABASE_GET_TO_PLACE[where_is])
                                     time.sleep(20)
                                     im.executeModality('TEXT_default','Do you need to know other patient\'s location?')
-                                    #im.executeModality('TTS','Do you need to know other patient\'s location?')
+                                    im.executeModality('TTS','Do you need to know other patient\'s location?')
                                     im.executeModality('ASR',{'correct':['yes','si'], 'wrong':['no','not']})
                                     im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
                                     answer = im.ask(actionname=None,timeout=45)
@@ -174,14 +163,13 @@ def infopoint():
                                         loop = False
                                         break
 
-                                #ERROR HERE: non entra qui dentro
+                                # The password here is wrong.
                                 else:
                                     im.executeModality('IMAGE','img/x.png')        
-                                    im.executeModality('TEXT_default','The PASSWORD that you\'ve inserted is wrong. HINT: Try to insert the full name. i.e.: "Flavio Lorenzi". Do you want to try it again?')
+                                    im.executeModality('TEXT_default','The PASSWORD that you\'ve inserted is wrong. Do you want to try it again?')
                                     im.executeModality('TTS','The PASSWORD is wrong')
-
                                     im.executeModality('BUTTONS',[['yes','Yes'],['no','No']])
-                                    again = im.ask(actionname=None,timeout=45)
+                                    again = im.ask(actionname=None,timeout=15)
                                     if again=='yes':
                                         continue
                                     else:
@@ -192,10 +180,9 @@ def infopoint():
                             im.executeModality('TEXT_default','I apologize for the misunderstanding')
                             im.executeModality('TTS','I apologize for the misunderstanding')
                             time.sleep(5)
-                            #im.executeModality('TTS','I\'m sorry for the misunderstanding')
                             continue
                     
-                    #Anche qua da fastidio       
+                    # No person is matched in the database
                     else:
                         im.executeModality('IMAGE','img/x.png')
                         im.executeModality('TEXT_default','I\'m sorry but the person you\'re looking for is not in this hospital. Can I help you anyway?')
@@ -207,32 +194,28 @@ def infopoint():
                         else:
                             break
 
-
-
-            #sezione in cui puoi chiedere di 3 dottori in particolare, ma uno non fa parte dello stuff!zzz
-            if b == 'doctors':
+            #############################
+            #   Looking for a doctor    #
+            #############################
+            elif b == 'doctors':
                 while True:
                     im.executeModality('TEXT_default','Who are you looking for?')
                     im.executeModality('TTS','Who are you looking for?')
-                    #im.executeModality('ASR',['yes','no'])
-                    im.executeModality('BUTTONS',[['doctor burioni','Doctor Burioni'],['doctor house','Doctor House'],['doctor dolittle','Doctor Dolittle']])
-                    im.executeModality('IMAGE','img/madrob.jpg')
-
-                    # wait for patient name 
+                    im.executeModality('BUTTONS',[['Doctor Burioni','Doctor Burioni'],['Doctor Merlini','Doctor Merlini'],['Doctor Dolittle','Doctor Dolittle']])
+                    im.executeModality('IMAGE','img/madrob.jpg') 
                     c = im.ask(actionname=None, timeout=40)
 
-                    if c == 'doctor burioni':
+                    if c == 'Doctor Burioni':
                         im.executeModality('TEXT_title','Wait I am calling him right away . . ')
                         im.executeModality('TEXT_default','Go to the room 123, he will arrive soon')  
                         im.executeModality('IMAGE','img/callhelp.png')  
                         im.executeModality('TTS','How do you feel? ')
                         time.sleep(10)
 
-                    elif c == 'doctor house':
-                        im.executeModality('TEXT_default','This is not a tv show, go away please !')  
-                        im.executeModality('IMAGE','img/drhouse.jpg')  
-                        im.executeModality('TTS','Go away please ')
-                        time.sleep(10)
+                    elif c == 'Doctor Merlini':
+                        im.executeModality('IMAGE','img/hospital_2_modified.jpg')  
+                        im.executeModality('TEXT_default','Doctor Merlini is in cardiology, the yellow pavillion.'+DATABASE_GET_TO_PLACE["cardiology"])  
+                        time.sleep(20)
 
                     else:
                         im.executeModality('TEXT_title','Wait here !')
@@ -254,12 +237,10 @@ def infopoint():
 
 
 
-            
-            #GAME 
-            #breve quiz di tre domande: se le indovini tutte e tre esce fuori la scritta sei un master
-            #inoltre in questo caso ti chiede se vuoi una foto per immortalare il momento: rispondere con asr
-
-            if b == 'fun':
+            #########################
+            #   Fun with Pepper     #
+            #########################
+            elif b == 'fun':
                 
                 g = True
                 im.executeModality('TEXT_default','Are you boring? Lets do a quiz ;)')  
@@ -397,10 +378,11 @@ def infopoint():
                         im.executeModality('TEXT_default','Exit . . .')
                         im.executeModality('TTS','Exit from the game now')
                         time.sleep(5)
-                        t = False #vai direttamente ai saluti appena finisci il quiz
-                        
-            #Basic informations about Pepper
-            if b == 'pepper':
+                        t = False 
+            #######################################
+            #   Basic information about Pepper   #
+            #######################################
+            else:
                 
                 while True:
                     im.executeModality('TEXT_title','Here you can read my story  ')
@@ -458,7 +440,7 @@ def infopoint():
                 continue
             
         
-            #TRANSPARENCY section: alla fine di ogni pulsante dell info point chiede se sei soddisfatto: se no return
+            #TRANSPARENCY section: whenever a buttons is pressed it asks for satisfiability 
             if t == True:
 
                 time.sleep(3)
@@ -483,10 +465,7 @@ def infopoint():
                     time.sleep(3)
                 t = False			
 
-
-
-
-        #do you need help? NO
+        # User actually needs NO help
         else:
             t = False
             im.executeModality('IMAGE','img/pepperr.jpg')
@@ -494,15 +473,17 @@ def infopoint():
             im.executeModality('TTS','I will be around here')
 
 
-    #saluti finali
+    # Final greetings
     time.sleep(5)
     im.executeModality('TEXT_title','Sayonara')
     im.executeModality('IMAGE','img/pepperr.jpg')
     im.executeModality('TEXT_default','Happy to help you !')
     im.executeModality('TTS','Bye bye, happy to help you')
 
+
 def questionnaire():
 
+    # Just an help function: like a switch in Java
     def switch_questionnaire(i):
         switcher={
             1: 1,
@@ -514,7 +495,7 @@ def questionnaire():
         return switcher[i]
 
     #Display another html page (specific for the questionnaire part)
-    im.display.loadUrl("questionnaire.html")
+    im.display.loadUrl("layout_questionnaire.html")
 
     time.sleep(2)
 
@@ -527,9 +508,6 @@ def questionnaire():
     im.executeModality('TTS','Can I ask you a favor? It will take a few minutes...')
 
     time.sleep(2)
-
-
-    
 
     # Using TTS service of the robot to SPEAK 
     im.executeModality('TEXT_title','Please, fill in a short questionnaire about me')
@@ -545,15 +523,15 @@ def questionnaire():
     if a == 'ok':
 
         im.robot.green_eyes()
-        #im.robot.headPose(0,25,0) #il robot abbassa la testa verso il tablet
-
         time.sleep(1)
         
+        # Explain the questionnaire
         im.executeModality('TTS','Choose in this range: 1 means: ABSOLUTELY NOT 2 means: MORE NO THAN YES 3 means: NEITHER YES OR NOT\n 4 means: MORE YES THAN NO\n 5 means: ABSOLUTELY YES')
         im.executeModality('TEXT_default','Choose in this range: \n 1 : ABSOLUTELY NOT \n 2 : MORE NO THAN YES \n 3 : NEITHER YES OR NOT \n 4 : MORE YES THAN NO \n 5 : ABSOLUTELY YES')
         time.sleep(15)
 
-        judge = 0 #giudizio persona
+        # Starting score
+        judge = 0 
 
         im.executeModality('TTS','How comfortable did you feel?')
         im.executeModality('TEXT_default','How comfortable did you feel?')
@@ -619,8 +597,6 @@ def questionnaire():
     im.executeModality('TTS','Bye bye')
     
 
-# main
-
 if __name__ == "__main__":
 
     # connect to local MODIM server
@@ -630,7 +606,7 @@ if __name__ == "__main__":
         
     #mws.run_interaction(hellothere) # blocking
 
-    mws.run_interaction(infopoint) # blocking
+    #mws.run_interaction(infopoint) # blocking
 
     #mws.run_interaction(questionnaire) #blocking
 

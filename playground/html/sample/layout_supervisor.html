@@ -1,0 +1,31 @@
+<html>
+
+<head>
+  <title>Human Robot interaction</title> 
+  <link rel="stylesheet" type="text/css" href="css/style_supervisor.css">
+  <script src="qaws.js"></script>
+
+</head>
+
+<body>
+
+<h1 align=center> <div align='center' id='text_title'><font color='darkred'>Human Robot Interaction</div> </h1>
+<br><br>
+<div align='center'> 
+  <img height=510 id='image_default' src="img/pepper.gif" alt="No image"/> </div><br><br>
+<h2><div align='center' id='text_default'><font color='black'>Supervisor Pepper is here</div></h2> <br>
+<h3><div align='center' id='tips'><font color='lightred'>I am checking that everything is ok</div></h3> <br>
+<div align='center' id='buttons'> </div>
+
+<script>
+    var ip=window.location.hostname;
+    if (ip=='')
+        ip='127.0.0.1';
+    var port = 9100;
+    wsrobot_init(ip,port);
+</script>
+
+</body>
+
+</html>
+

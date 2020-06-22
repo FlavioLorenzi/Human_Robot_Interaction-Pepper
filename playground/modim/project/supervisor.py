@@ -20,36 +20,38 @@ def supervisor():
     # (il robot conosce gia la mappa grazie ad uno slam fatto in passato)
 
     im.init()
+
+    im.display.loadUrl('layout_supervisor.html')
+
     im.robot.startSensorMonitor()
+
 
     time.sleep(1)
 
     # TODO bisogna trovare il modo per renderli fissi: qui danno fastidio all ASR
 
-    '''
-    im.executeModality('BUTTONS',[['nurse','nurse'],['doc','doc']]) #chiamare subito il medico manualmente
-    o = im.ask(actionname=None, timeout=200)
-
-    if o == 'nurse':
-      im.execute('nurse')
-    else:
-      im.execute('doc')
-
-    time.sleep(1)  
-    '''  
+    
+    
+    
 
     im.executeModality('ASR',["help"])        #i pazienti sono avvisati che per ricevere assistenza devono dire 'help'
-    h = im.ask(actionname=None, timeout=200)
+    im.executeModality('BUTTONS',[['nurse','nurse'],['doc','doc']]) #chiamare subito il medico manualmente
 
     sonar = im.robot.sensorvalue()
     frontsonar = sonar[1]
-    print('Rilevo distanza di',frontsonar)      #qui aggiungere il face recognition per ''non parlare con i muri'' TODO
+    #print('Rilevo distanza di',frontsonar)      #qui aggiungere il face recognition per ''non parlare con i muri'' TODO
 
+    o = im.ask(actionname=None, timeout=200)
+
+    #Either press button or ASR
+    if o != 'timeout':
+      if o == 'doc':
+        im.execute('doc')
+      elif:
+
+    
     if (frontsonar >0.1 and frontsonar <3) or h == "help":
     
-
-        im.display.loadUrl('supervisor.html')
-
         time.sleep(1)
 
         im.robot.raiseArm('R') #alt fermati con la mano
