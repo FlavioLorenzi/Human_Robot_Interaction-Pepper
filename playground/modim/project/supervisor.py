@@ -29,13 +29,13 @@ def supervisor():
     rearSonar = sensors[2]
     headTouch = sensors[3]
 
-    if (frontSonar > 0.1 and frontSonar < 3) or (rearSonar > 0.1 and rearSonar < 3) or headTouch:
+    
     time.sleep(1)    
     
     im.executeModality('ASR',["help"])                              # Patients are known to say 'help' in case of emergency
     im.executeModality('BUTTONS',[['nurse','nurse'],['doc','doc']]) # Doctor is called manually
     
-    frontsonar = sonar[1]
+    
     o = im.ask(actionname=None, timeout=200)
 
     #Either press button or ASR
@@ -44,7 +44,7 @@ def supervisor():
         im.execute('doc')
       elif:
 
-    if (frontsonar >0.1 and frontsonar <3) or h == "help":
+    if (frontSonar > 0.1 and frontSonar < 3) or (rearSonar > 0.1 and rearSonar < 3) or headTouch or h == "help":
     
         time.sleep(1)
 
