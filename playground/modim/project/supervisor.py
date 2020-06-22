@@ -34,15 +34,13 @@ def supervisor():
     
     im.executeModality('ASR',["help"])                              # Patients are known to say 'help' in case of emergency
     im.executeModality('BUTTONS',[['nurse','nurse'],['doc','doc']]) # Doctor is called manually
-    
-    
-    o = im.ask(actionname=None, timeout=200)
+    h = im.ask(actionname=None, timeout=200)
 
     #Either press button or ASR
-    if o != 'timeout':
-      if o == 'doc':
-        im.execute('doc')
-      elif:
+    if h == 'nurse':
+      im.execute('nurse')  
+    elif h == 'doc':
+      im.execute('doc')
 
     if (frontSonar > 0.1 and frontSonar < 3) or (rearSonar > 0.1 and rearSonar < 3) or headTouch or h == "help":
     
