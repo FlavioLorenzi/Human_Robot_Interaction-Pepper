@@ -23,11 +23,18 @@ def supervisor():
     im.display.loadUrl('layout_supervisor.html')
 
     im.robot.startSensorMonitor()
+
+    sensors = im.robot.sensorvalue()
+    frontSonar = sensors[1]
+    rearSonar = sensors[2]
+    headTouch = sensors[3]
+
+    if (frontSonar > 0.1 and frontSonar < 3) or (rearSonar > 0.1 and rearSonar < 3) or headTouch:
     time.sleep(1)    
     
     im.executeModality('ASR',["help"])                              # Patients are known to say 'help' in case of emergency
     im.executeModality('BUTTONS',[['nurse','nurse'],['doc','doc']]) # Doctor is called manually
-    sonar = im.robot.sensorvalue()
+    
     frontsonar = sonar[1]
     o = im.ask(actionname=None, timeout=200)
 

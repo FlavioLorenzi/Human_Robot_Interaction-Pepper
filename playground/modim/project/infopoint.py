@@ -14,11 +14,12 @@ def hellothere():
     im.init()
     im.robot.startSensorMonitor()
 
-    sonar = im.robot.sensorvalue()
-    frontsonar = sonar[1]
-    print('Rilevo distanza di',frontsonar)     
+    sensors = im.robot.sensorvalue()
+    frontSonar = sensors[1]
+    rearSonar = sensors[2]
+    headTouch = sensors[3]
 
-    if frontsonar >0.1 and frontsonar <3:
+    if (frontSonar > 0.1 and frontSonar < 3) or (rearSonar > 0.1 and rearSonar < 3) or headTouch:
 
 
         im.display.loadUrl('layout_infopoint.html')
