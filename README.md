@@ -61,7 +61,10 @@ See terminal commands file (txt)
 
 ## Final Video and results
 Click on the image to see an example of our results (Quiz video)
+
+
 [![SC2 Image](sample.png)](https://www.youtube.com/watch?v=IbQscip_F5M) 
 
 
-Other video of results at: https://www.youtube.com/channel/UCsKJESLHc5omHOMhgsrGAcw/videos
+
+Other results and videos on YouTube Channel:  https://www.youtube.com/channel/UCsKJESLHc5omHOMhgsrGAcw/videos
