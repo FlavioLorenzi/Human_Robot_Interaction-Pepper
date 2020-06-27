@@ -60,4 +60,8 @@ See terminal commands file (txt)
 -State Of The Art: A Study of Human-Robot Interaction in Healthcare
 
 ## Final Video and results
-work in progress
+Click on the image to see an example of our results (Quiz video)
+[![SC2 Image](sample.png)](https://www.youtube.com/watch?v=IbQscip_F5M) 
+
+
+Other video of results at: https://www.youtube.com/channel/UCsKJESLHc5omHOMhgsrGAcw/videos
