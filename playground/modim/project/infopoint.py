@@ -12,6 +12,7 @@ from ws_client import *
 
 def hellothere():
     im.init()
+    im.display.loadUrl('layout_infopoint.html')
     im.robot.startSensorMonitor()
 
     sensors = im.robot.sensorvalue()
@@ -22,7 +23,7 @@ def hellothere():
     if (frontSonar > 0.1 and frontSonar < 3) or (rearSonar > 0.1 and rearSonar < 3) or headTouch:
 
 
-        im.display.loadUrl('layout_infopoint.html')
+        #im.display.loadUrl('layout_infopoint.html')
 
         time.sleep(1)
 
@@ -605,9 +606,9 @@ if __name__ == "__main__":
     mws.setDemoPathAuto(__file__)
 
         
-    #mws.run_interaction(hellothere) # blocking
+    mws.run_interaction(hellothere) # blocking
 
-    #mws.run_interaction(infopoint) # blocking
+    mws.run_interaction(infopoint) # blocking
 
     #mws.run_interaction(questionnaire) #blocking
 
