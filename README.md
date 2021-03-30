@@ -49,7 +49,7 @@ You can see all docs [here](./Documents).
 There is a personal slide presentation of the paper: Increasing Trust In Human Robot Medical Interactions and then we have other papers that have influenced our project ideas.
 
 ## Paper
-Click [here](./) to read about our work.
+Click [here](./Report.pdf) to read about our work implementation.
 
 
 ## Guideline
