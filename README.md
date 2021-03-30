@@ -44,11 +44,12 @@ MODIM SERVER, UBUNTU, Python 3, NGINX, DOCKER, NAOQI SERVER, PNP SERVER
 
 
 ## Documentation
-You can see our final slide presentation in Documents folder (TODO).
+You can see all docs [here](./Documents).
 
-Here there is also a personal slide presentation of the paper: Increasing Trust In Human Robot Medical Interactions
+There is a personal slide presentation of the paper: Increasing Trust In Human Robot Medical Interactions and then we have other papers that have influenced our project ideas.
 
-And then we have other papers that have influence our project ideas
+## Paper
+Click [here](./) to read about our work.
 
 
 ## Guideline
